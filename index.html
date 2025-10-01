@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tecnico Online</title>
+    <title>Teste Tudo</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -13,38 +14,197 @@
                         primary: '#3b82f6',
                         secondary: '#1e40af',
                         success: '#10b981',
+                        accent: '#8b5cf6',
+                        dark: '#0f172a',
+                        'dark-light': '#1e293b'
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-in-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'float': 'float 3s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate'
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center p-4">
-    <header class="w-full max-w-4xl text-center mb-8">
-        <h1 class="text-4xl font-bold text-primary mb-2">Tecnico Online</h1>
+<body class="bg-gradient-to-br from-dark via-slate-900 to-dark-light text-white min-h-screen">
+    <!-- Background Pattern -->
+    <div class="fixed inset-0 opacity-10">
+        <div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20"></div>
+        <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.1),transparent_50%)]"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="relative z-10 w-full text-center py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="animate-fade-in">
+                <h1 class="text-6xl md:text-7xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent mb-4 animate-glow">
+                    Teste Tudo
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 font-light mb-2">
+                    Ferramentas profissionais para diagnóstico de hardware
+                </p>
+                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
+            </div>
+        </div>
     </header>
 
-    <main class="w-full max-w-4xl">
-        <div class="flex flex-wrap justify-center gap-4">
-            <a href="touch-screen.html" class="block text-center text-primary font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-secondary transition-colors duration-300">Teste seu Touch Screen</a>
-            <a href="audio-microfone.html" class="block text-center text-primary font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-secondary transition-colors duration-300">Audio e Microfone</a>
-            <a href="teste-seu-processador.html" class="block text-center text-primary font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-secondary transition-colors duration-300">Teste seu Processador</a>
-            <a href="teste-seu-teclado.html" class="block text-center text-primary font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-secondary transition-colors duration-300">Teste seu Teclado</a>
-            <a href="teste-velocidade-internet.html" class="block text-center text-primary font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-secondary transition-colors duration-300">Velocidade da Internet</a>
-        </div>
-        <h1 class="text-4xl font-bold text-primary mb-2 text-center mt-5">Links Importantes</h1>
-        <div class="flex flex-wrap justify-center gap-4 mt-5">
-            <a href="https://www.speedtest.net/pt" class="block text-center text-primary font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-secondary transition-colors duration-300">Teste de Velocidade</a>
-            <a href="https://www.hdsentinel.com/download.php" class="block text-center text-primary font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-secondary transition-colors duration-300">Teste a saúde do seu HD</a>
-        </div>
+    <!-- Main Content -->
+    <main class="relative z-10 w-full max-w-7xl mx-auto px-4 pb-16">
+        <!-- Test Tools Section -->
+        <section class="mb-16 animate-slide-up">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                Ferramentas de Teste
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Touch Screen Test -->
+                <a href="teste-touch-screen.html" class="group block">
+                    <div class="bg-gradient-to-br from-dark-light to-slate-800 p-8 rounded-2xl border border-gray-700 hover:border-primary/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary/20 backdrop-blur-sm">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-6 group-hover:animate-float">
+                                <i class="fas fa-hand-pointer text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors">Teste Touch Screen</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">Verifique a responsividade e precisão da tela sensível ao toque</p>
+                        </div>
+                    </div>
+                </a>
 
+                <!-- Audio & Microphone Test -->
+                <a href="audio-microfone.html" class="group block">
+                    <div class="bg-gradient-to-br from-dark-light to-slate-800 p-8 rounded-2xl border border-gray-700 hover:border-success/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-success/20 backdrop-blur-sm">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gradient-to-br from-success to-emerald-400 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:animate-float">
+                                <i class="fas fa-microphone text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-success transition-colors">Áudio e Microfone</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">Teste a qualidade do áudio e funcionamento do microfone</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Processor Test -->
+                <a href="teste-seu-processador.html" class="group block">
+                    <div class="bg-gradient-to-br from-dark-light to-slate-800 p-8 rounded-2xl border border-gray-700 hover:border-accent/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-accent/20 backdrop-blur-sm">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gradient-to-br from-accent to-purple-400 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:animate-float">
+                                <i class="fas fa-microchip text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-accent transition-colors">Teste Processador</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">Avalie o desempenho e estabilidade do processador</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Keyboard Test -->
+                <a href="teste-seu-teclado.html" class="group block">
+                    <div class="bg-gradient-to-br from-dark-light to-slate-800 p-8 rounded-2xl border border-gray-700 hover:border-yellow-500/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/20 backdrop-blur-sm">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-400 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:animate-float">
+                                <i class="fas fa-keyboard text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-yellow-500 transition-colors">Teste Teclado</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">Verifique o funcionamento de todas as teclas</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Internet Speed Test -->
+                <a href="teste-velocidade-internet.html" class="group block">
+                    <div class="bg-gradient-to-br from-dark-light to-slate-800 p-8 rounded-2xl border border-gray-700 hover:border-cyan-500/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/20 backdrop-blur-sm">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-400 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:animate-float">
+                                <i class="fas fa-wifi text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-cyan-500 transition-colors">Velocidade Internet</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">Meça a velocidade da sua conexão de internet</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Important Links Section -->
+        <section class="animate-slide-up">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                Links Importantes
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Speed Test External -->
+                <a href="https://www.speedtest.net/pt" target="_blank" class="group block">
+                    <div class="bg-gradient-to-br from-dark-light to-slate-800 p-8 rounded-2xl border border-gray-700 hover:border-primary/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary/20 backdrop-blur-sm">
+                        <div class="flex items-center space-x-6">
+                            <div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center group-hover:animate-float">
+                                <i class="fas fa-tachometer-alt text-2xl text-white"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-2 group-hover:text-primary transition-colors">Speedtest.net</h3>
+                                <p class="text-gray-400 text-sm">Teste oficial de velocidade de internet</p>
+                                <i class="fas fa-external-link-alt text-xs text-gray-500 mt-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- HD Health Test -->
+                <a href="https://www.hdsentinel.com/download.php" target="_blank" class="group block">
+                    <div class="bg-gradient-to-br from-dark-light to-slate-800 p-8 rounded-2xl border border-gray-700 hover:border-red-500/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-red-500/20 backdrop-blur-sm">
+                        <div class="flex items-center space-x-6">
+                            <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-pink-500 rounded-full flex items-center justify-center group-hover:animate-float">
+                                <i class="fas fa-hdd text-2xl text-white"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-2 group-hover:text-red-500 transition-colors">HD Sentinel</h3>
+                                <p class="text-gray-400 text-sm">Monitore a saúde do seu disco rígido</p>
+                                <i class="fas fa-external-link-alt text-xs text-gray-500 mt-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
     </main>
 
-    <footer class="mt-8 text-gray-500 text-center">
-        <p>Desenvolvido por Phelipe Curty </p>
+    <!-- Footer -->
+    <footer class="relative z-10 mt-16 py-8 border-t border-gray-800">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8">
+                <p class="text-gray-400">
+                    Desenvolvido por 
+                   <a href="https://phelipecurty.vercel.app" target="_blank" class="text-primary font-semibold transition-colors duration-300 hover:text-secondary">Phelipe Curty</a>
+                </p>
+                <div class="flex space-x-2">
+                    <div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                    <div class="w-2 h-2 bg-accent rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
+                    <div class="w-2 h-2 bg-success rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+            to { text-shadow: 0 0 30px rgba(139, 92, 246, 0.8); }
+        }
+
         .key {
             @apply bg-gray-700 text-center py-3 px-4 rounded shadow-md transition-all duration-200 min-w-[40px] text-sm;
         }
@@ -59,6 +219,26 @@
         }
         .key-active {
             @apply bg-primary text-white transform scale-95;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1e40af;
         }
     </style>
 
