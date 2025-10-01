@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecnico Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#1e40af',
+                        success: '#10b981',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center p-4">
+    <header class="w-full max-w-4xl text-center mb-8">
+        <h1 class="text-4xl font-bold text-primary mb-2">Tecnico Online</h1>
+    </header>
+
+    <main class="w-full max-w-4xl">
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="touch-screen.html" class="block text-center text-primary font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-secondary transition-colors duration-300">Teste seu Touch Screen</a>
+            <a href="audio-microfone.html" class="block text-center text-primary font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-secondary transition-colors duration-300">Audio e Microfone</a>
+            <a href="teste-seu-processador.html" class="block text-center text-primary font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-secondary transition-colors duration-300">Teste seu Processador</a>
+            <a href="teste-seu-teclado.html" class="block text-center text-primary font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-secondary transition-colors duration-300">Teste seu Teclado</a>
+            <a href="teste-velocidade-internet.html" class="block text-center text-primary font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-secondary transition-colors duration-300">Velocidade da Internet</a>
+        </div>
+        <h1 class="text-4xl font-bold text-primary mb-2 text-center mt-5">Links Importantes</h1>
+        <div class="flex flex-wrap justify-center gap-4 mt-5">
+            <a href="https://www.speedtest.net/pt" class="block text-center text-primary font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-secondary transition-colors duration-300">Teste de Velocidade</a>
+            <a href="https://www.hdsentinel.com/download.php" class="block text-center text-primary font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-secondary transition-colors duration-300">Teste a saúde do seu HD</a>
+        </div>
+
+    </main>
+
+    <footer class="mt-8 text-gray-500 text-center">
+        <p>Desenvolvido por Phelipe Curty </p>
+    </footer>
+
+    <style>
+        .key {
+            @apply bg-gray-700 text-center py-3 px-4 rounded shadow-md transition-all duration-200 min-w-[40px] text-sm;
+        }
+        .key-wide {
+            @apply min-w-[80px];
+        }
+        .key-wider {
+            @apply min-w-[100px];
+        }
+        .key-widest {
+            @apply min-w-[200px];
+        }
+        .key-active {
+            @apply bg-primary text-white transform scale-95;
+        }
+    </style>
+
+    <script src="script.js"></script>
+</body>
+</html>

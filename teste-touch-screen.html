@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Teste de Touch Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            overscroll-behavior: none;
+            touch-action: none;
+        }
+        #touch-area {
+            touch-action: none;
+        }
+        .touch-point {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            margin-left: -20px;
+            margin-top: -20px;
+            border-radius: 50%;
+            background-color: rgba(59, 130, 246, 0.5);
+            border: 2px solid rgb(37, 99, 235);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            pointer-events: none;
+        }
+        .target-point {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            margin-left: -15px;
+            margin-top: -15px;
+            border-radius: 50%;
+            border: 2px dashed #ef4444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .swipe-area {
+            position: relative;
+            height: 80px;
+            background-color: rgba(59, 130, 246, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .swipe-indicator {
+            position: absolute;
+            height: 100%;
+            width: 0;
+            background-color: rgba(59, 130, 246, 0.3);
+            transition: width 0.1s;
+        }
+        .pinch-area {
+            position: relative;
+            height: 150px;
+            background-color: rgba(59, 130, 246, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .pinch-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px dashed #3b82f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-center mb-6">Teste de Touch Screen</h1>
+        
+        <!-- Painel de Navegação -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <div class="flex flex-wrap gap-2">
+                <a href="index.html" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Início</a>
+                <a href="teste-seu-teclado.html" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Teste de Teclado</a>
+                <a href="teste-seu-processador.html" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Teste de Processador</a>
+                <a href="audio-microfone.html" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Teste de Áudio</a>
+                <a href="teste-touch-screen.html" class="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 transition">Teste de Touch</a>
+            </div>
+        </div>
+        
+        <!-- Informações -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <h2 class="text-xl font-semibold mb-2">Informações do Dispositivo</h2>
+            <div id="device-info" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <p><span class="font-medium">Dispositivo:</span> <span id="device-name">Detectando...</span></p>
+                    <p><span class="font-medium">Navegador:</span> <span id="browser-info">Detectando...</span></p>
+                </div>
+                <div>
+                    <p><span class="font-medium">Suporte a Touch:</span> <span id="touch-support" class="font-semibold">Verificando...</span></p>
+                    <p><span class="font-medium">Suporte a Multi-touch:</span> <span id="multitouch-support" class="font-semibold">Verificando...</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Área de Teste de Toque -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <h2 class="text-xl font-semibold mb-2">Teste de Detecção de Toque</h2>
+            <p class="mb-4">Toque na área abaixo para testar. Suporta múltiplos toques simultâneos.</p>
+            
+            <div id="touch-area" class="relative bg-gray-50 border-2 border-blue-200 rounded-lg h-64 mb-4">
+                <div class="absolute inset-0 flex items-center justify-center text-gray-400">
+                    Toque aqui para testar
+                </div>
+                <!-- Touch points serão adicionados dinamicamente -->
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <h3 class="font-medium mb-2">Toques Detectados</h3>
+                    <div id="touch-count" class="text-2xl font-bold text-blue-600">0</div>
+                </div>
+                <div>
+                    <h3 class="font-medium mb-2">Último Evento</h3>
+                    <div id="last-event" class="text-sm font-mono bg-gray-100 p-2 rounded">Nenhum evento</div>
+                </div>
+            </div>
+            
+            <button id="clear-touches" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">Limpar</button>
+        </div>
+        
+        <!-- Teste de Precisão -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <h2 class="text-xl font-semibold mb-2">Teste de Precisão</h2>
+            <p class="mb-4">Toque nos alvos que aparecem na tela para testar a precisão do seu touch screen.</p>
+            
+            <div id="precision-area" class="relative bg-gray-50 border-2 border-blue-200 rounded-lg h-64 mb-4">
+                <div class="absolute inset-0 flex items-center justify-center text-gray-400" id="precision-start">
+                    Clique para iniciar o teste de precisão
+                </div>
+                <!-- Target points serão adicionados dinamicamente -->
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <h3 class="font-medium mb-2">Precisão</h3>
+                    <div id="precision-score" class="text-2xl font-bold text-blue-600">0%</div>
+                </div>
+                <div>
+                    <h3 class="font-medium mb-2">Alvos Atingidos</h3>
+                    <div id="targets-hit" class="text-2xl font-bold text-green-600">0/0</div>
+                </div>
+                <div>
+                    <h3 class="font-medium mb-2">Desvio Médio</h3>
+                    <div id="average-deviation" class="text-2xl font-bold text-orange-600">0px</div>
+                </div>
+            </div>
+            
+            <button id="restart-precision" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Reiniciar Teste</button>
+        </div>
+        
+        <!-- Teste de Gestos -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <h2 class="text-xl font-semibold mb-2">Teste de Gestos</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <!-- Swipe Test -->
+                <div>
+                    <h3 class="font-medium mb-2">Teste de Swipe</h3>
+                    <p class="text-sm mb-2">Deslize o dedo da esquerda para a direita</p>
+                    <div id="swipe-area" class="swipe-area mb-2">
+                        <div id="swipe-indicator" class="swipe-indicator"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span id="swipe-text">Deslize →</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>0%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+                
+                <!-- Pinch Test -->
+                <div>
+                    <h3 class="font-medium mb-2">Teste de Pinch</h3>
+                    <p class="text-sm mb-2">Use dois dedos para aumentar/diminuir</p>
+                    <div id="pinch-area" class="pinch-area">
+                        <div id="pinch-circle" class="pinch-circle">
+                            <span id="pinch-scale">100%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Rotation Test -->
+                <div>
+                    <h3 class="font-medium mb-2">Teste de Rotação</h3>
+                    <p class="text-sm mb-2">Use dois dedos para girar</p>
+                    <div id="rotation-area" class="pinch-area">
+                        <div id="rotation-element" class="pinch-circle" style="border: 2px solid #8b5cf6;">
+                            <div class="w-1 h-8 bg-purple-500 absolute top-0 left-1/2 transform -translate-x-1/2"></div>
+                            <span id="rotation-value">0°</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Double Tap Test -->
+                <div>
+                    <h3 class="font-medium mb-2">Teste de Toque Duplo</h3>
+                    <p class="text-sm mb-2">Toque duas vezes rapidamente</p>
+                    <div id="doubletap-area" class="relative bg-gray-50 border-2 border-blue-200 rounded-lg h-32 flex items-center justify-center">
+                        <span id="doubletap-text">Toque duplo aqui</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Resultados -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <h2 class="text-xl font-semibold mb-2">Resultados do Teste</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <h3 class="font-medium mb-1">Detecção de Toque</h3>
+                    <div id="touch-result" class="flex items-center">
+                        <span class="w-4 h-4 rounded-full bg-gray-300 mr-2"></span>
+                        <span>Não testado</span>
+                    </div>
+                </div>
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <h3 class="font-medium mb-1">Precisão</h3>
+                    <div id="precision-result" class="flex items-center">
+                        <span class="w-4 h-4 rounded-full bg-gray-300 mr-2"></span>
+                        <span>Não testado</span>
+                    </div>
+                </div>
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <h3 class="font-medium mb-1">Gestos</h3>
+                    <div id="gesture-result" class="flex items-center">
+                        <span class="w-4 h-4 rounded-full bg-gray-300 mr-2"></span>
+                        <span>Não testado</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Elementos DOM
+        const touchArea = document.getElementById('touch-area');
+        const touchCount = document.getElementById('touch-count');
+        const lastEvent = document.getElementById('last-event');
+        const clearButton = document.getElementById('clear-touches');
+        const deviceName = document.getElementById('device-name');
+        const browserInfo = document.getElementById('browser-info');
+        const touchSupport = document.getElementById('touch-support');
+        const multitouchSupport = document.getElementById('multitouch-support');
+        const precisionArea = document.getElementById('precision-area');
+        const precisionStart = document.getElementById('precision-start');
+        const precisionScore = document.getElementById('precision-score');
+        const targetsHit = document.getElementById('targets-hit');
+        const averageDeviation = document.getElementById('average-deviation');
+        const restartPrecision = document.getElementById('restart-precision');
+        const swipeArea = document.getElementById('swipe-area');
+        const swipeIndicator = document.getElementById('swipe-indicator');
+        const swipeText = document.getElementById('swipe-text');
+        const pinchArea = document.getElementById('pinch-area');
+        const pinchCircle = document.getElementById('pinch-circle');
+        const pinchScale = document.getElementById('pinch-scale');
+        const rotationArea = document.getElementById('rotation-area');
+        const rotationElement = document.getElementById('rotation-element');
+        const rotationValue = document.getElementById('rotation-value');
+        const doubletapArea = document.getElementById('doubletap-area');
+        const doubletapText = document.getElementById('doubletap-text');
+        const touchResult = document.getElementById('touch-result');
+        const precisionResult = document.getElementById('precision-result');
+        const gestureResult = document.getElementById('gesture-result');
+
+        // Variáveis globais
+        let activePoints = {};
+        let precisionTest = {
+            active: false,
+            currentTarget: null,
+            targetsTotal: 10,
+            targetsHit: 0,
+            deviations: [],
+            targetPositions: []
+        };
+        let lastTap = 0;
+        let initialPinchDistance = 0;
+        let initialRotation = 0;
+        let gesturesDetected = {
+            swipe: false,
+            pinch: false,
+            rotate: false,
+            doubleTap: false
+        };
+
+        // Detectar informações do dispositivo
+        function detectDeviceInfo() {
+            // Detectar dispositivo
+            const userAgent = navigator.userAgent;
+            let deviceInfo = "Desconhecido";
+            
+            if (/iPhone|iPad|iPod/.test(userAgent)) {
+                deviceInfo = "iOS";
+            } else if (/Android/.test(userAgent)) {
+                deviceInfo = "Android";
+            } else if (/Windows Phone/.test(userAgent)) {
+                deviceInfo = "Windows Phone";
+            } else if (/Windows/.test(userAgent)) {
+                deviceInfo = "Windows";
+            } else if (/Macintosh/.test(userAgent)) {
+                deviceInfo = "Mac";
+            } else if (/Linux/.test(userAgent)) {
+                deviceInfo = "Linux";
+            }
+            
+            deviceName.textContent = deviceInfo;
+            
+            // Detectar navegador
+            let browserName = "Desconhecido";
+            if (/Edge/.test(userAgent)) {
+                browserName = "Microsoft Edge";
+            } else if (/Firefox/.test(userAgent)) {
+                browserName = "Firefox";
+            } else if (/Chrome/.test(userAgent)) {
+                browserName = "Chrome";
+            } else if (/Safari/.test(userAgent)) {
+                browserName = "Safari";
+            } else if (/Opera|OPR/.test(userAgent)) {
+                browserName = "Opera";
+            } else if (/MSIE|Trident/.test(userAgent)) {
+                browserName = "Internet Explorer";
+            }
+            
+            browserInfo.textContent = browserName;
+            
+            // Verificar suporte a touch
+            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+                touchSupport.textContent = "Suportado";
+                touchSupport.classList.add('text-green-600');
+                
+                // Verificar suporte a multi-touch
+                if (navigator.maxTouchPoints > 1) {
+                    multitouchSupport.textContent = "Suportado (" + navigator.maxTouchPoints + " pontos)";
+                    multitouchSupport.classList.add('text-green-600');
+                } else {
+                    multitouchSupport.textContent = "Limitado (1 ponto)";
+                    multitouchSupport.classList.add('text-yellow-600');
+                }
+            } else {
+                touchSupport.textContent = "Não suportado";
+                touchSupport.classList.add('text-red-600');
+                multitouchSupport.textContent = "Não suportado";
+                multitouchSupport.classList.add('text-red-600');
+            }
+        }
+
+        // Função para criar um ponto de toque
+        function createTouchPoint(id, x, y) {
+            const point = document.createElement('div');
+            point.id = 'touch-' + id;
+            point.className = 'touch-point';
+            point.style.left = x + 'px';
+            point.style.top = y + 'px';
+            point.textContent = id;
+            touchArea.appendChild(point);
+            return point;
+        }
+
+        // Função para atualizar um ponto de toque
+        function updateTouchPoint(id, x, y) {
+            const point = document.getElementById('touch-' + id);
+            if (point) {
+                point.style.left = x + 'px';
+                point.style.top = y + 'px';
+            }
+        }
+
+        // Função para remover um ponto de toque
+        function removeTouchPoint(id) {
+            const point = document.getElementById('touch-' + id);
+            if (point) {
+                point.remove();
+            }
+        }
+
+        // Função para atualizar o contador de toques
+        function updateTouchCount() {
+            const count = Object.keys(activePoints).length;
+            touchCount.textContent = count;
+            
+            // Atualizar resultado do teste de toque
+            if (count > 0) {
+                touchResult.innerHTML = `
+                    <span class="w-4 h-4 rounded-full bg-green-500 mr-2"></span>
+                    <span>Funcionando corretamente</span>
+                `;
+            }
+        }
+
+        // Função para atualizar o último evento
+        function updateLastEvent(type, touches) {
+            const touchInfo = Array.from(touches).map(t => 
+                `ID: ${t.identifier}, X: ${Math.round(t.clientX)}, Y: ${Math.round(t.clientY)}`
+            ).join('<br>');
+            
+            lastEvent.innerHTML = `<strong>${type}</strong><br>${touchInfo}`;
+        }
+
+        // Função para iniciar o teste de precisão
+        function startPrecisionTest() {
+            precisionTest.active = true;
+            precisionTest.targetsHit = 0;
+            precisionTest.deviations = [];
+            precisionTest.targetPositions = [];
+            
+            // Gerar posições aleatórias para os alvos
+            const width = precisionArea.clientWidth - 60;
+            const height = precisionArea.clientHeight - 60;
+            
+            for (let i = 0; i < precisionTest.targetsTotal; i++) {
+                precisionTest.targetPositions.push({
+                    x: 30 + Math.random() * width,
+                    y: 30 + Math.random() * height
+                });
+            }
+            
+            // Limpar área e iniciar
+            precisionArea.innerHTML = '';
+            precisionStart.style.display = 'none';
+            createNextTarget();
+        }
+
+        // Função para criar o próximo alvo
+        function createNextTarget() {
+            if (precisionTest.targetsHit >= precisionTest.targetsTotal) {
+                finishPrecisionTest();
+                return;
+            }
+            
+            const position = precisionTest.targetPositions[precisionTest.targetsHit];
+            const target = document.createElement('div');
+            target.className = 'target-point';
+            target.style.left = position.x + 'px';
+            target.style.top = position.y + 'px';
+            target.innerHTML = (precisionTest.targetsHit + 1).toString();
+            
+            precisionArea.appendChild(target);
+            precisionTest.currentTarget = {
+                element: target,
+                x: position.x,
+                y: position.y
+            };
+            
+            // Atualizar contador
+            targetsHit.textContent = `${precisionTest.targetsHit}/${precisionTest.targetsTotal}`;
+        }
+
+        // Função para verificar toque no alvo
+        function checkTargetHit(x, y) {
+            if (!precisionTest.active || !precisionTest.currentTarget) return;
+            
+            const target = precisionTest.currentTarget;
+            const dx = x - target.x;
+            const dy = y - target.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            // Considerar acerto se estiver a menos de 30px do centro
+            if (distance < 30) {
+                // Registrar desvio
+                precisionTest.deviations.push(distance);
+                
+                // Remover alvo atual
+                target.element.remove();
+                
+                // Incrementar contador
+                precisionTest.targetsHit++;
+                
+                // Criar próximo alvo
+                createNextTarget();
+            }
+        }
+
+        // Função para finalizar o teste de precisão
+        function finishPrecisionTest() {
+            precisionTest.active = false;
+            
+            // Calcular pontuação
+            const hitRate = precisionTest.targetsHit / precisionTest.targetsTotal;
+            const score = Math.round(hitRate * 100);
+            
+            // Calcular desvio médio
+            let avgDeviation = 0;
+            if (precisionTest.deviations.length > 0) {
+                avgDeviation = precisionTest.deviations.reduce((sum, val) => sum + val, 0) / precisionTest.deviations.length;
+            }
+            
+            // Atualizar resultados
+            precisionScore.textContent = score + '%';
+            targetsHit.textContent = `${precisionTest.targetsHit}/${precisionTest.targetsTotal}`;
+            averageDeviation.textContent = Math.round(avgDeviation) + 'px';
+            
+            // Mostrar mensagem de conclusão
+            precisionArea.innerHTML = '';
+            const message = document.createElement('div');
+            message.className = 'absolute inset-0 flex items-center justify-center text-lg font-medium';
+            message.textContent = `Teste concluído! Pontuação: ${score}%`;
+            precisionArea.appendChild(message);
+            
+            // Atualizar resultado do teste de precisão
+            if (score >= 80) {
+                precisionResult.innerHTML = `
+                    <span class="w-4 h-4 rounded-full bg-green-500 mr-2"></span>
+                    <span>Excelente (${score}%)</span>
+                `;
+            } else if (score >= 60) {
+                precisionResult.innerHTML = `
+                    <span class="w-4 h-4 rounded-full bg-yellow-500 mr-2"></span>
+                    <span>Bom (${score}%)</span>
+                `;
+            } else {
+                precisionResult.innerHTML = `
+                    <span class="w-4 h-4 rounded-full bg-red-500 mr-2"></span>
+                    <span>Precisa melhorar (${score}%)</span>
+                `;
+            }
+        }
+
+        // Função para atualizar o resultado dos gestos
+        function updateGestureResult() {
+            const detectedCount = Object.values(gesturesDetected).filter(Boolean).length;
+            const totalGestures = Object.keys(gesturesDetected).length;
+            
+            if (detectedCount === 0) {
+                gestureResult.innerHTML = `
+                    <span class="w-4 h-4 rounded-full bg-gray-300 mr-2"></span>
+                    <span>Não testado</span>
+                `;
+            } else if (detectedCount === totalGestures) {
+                gestureResult.innerHTML = `
+                    <span class="w-4 h-4 rounded-full bg-green-500 mr-2"></span>
+                    <span>Todos os gestos funcionam</span>
+                `;
+            } else {
+                gestureResult.innerHTML = `
+                    <span class="w-4 h-4 rounded-full bg-yellow-500 mr-2"></span>
+                    <span>${detectedCount}/${totalGestures} gestos detectados</span>
+                `;
+            }
+        }
+
+        // Event Listeners para a área de toque
+        touchArea.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            
+            // Processar cada toque
+            for (let i = 0; i < e.changedTouches.length; i++) {
+                const touch = e.changedTouches[i];
+                const rect = touchArea.getBoundingClientRect();
+                const x = touch.clientX - rect.left;
+                const y = touch.clientY - rect.top;
+                
+                // Criar ponto visual
+                activePoints[touch.identifier] = createTouchPoint(touch.identifier, x, y);
+            }
+            
+            updateTouchCount();
+            updateLastEvent('touchstart', e.changedTouches);
+        });
+
+        touchArea.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+            
+            // Processar cada toque
+            for (let i = 0; i < e.changedTouches.length; i++) {
+                const touch = e.changedTouches[i];
+                const rect = touchArea.getBoundingClientRect();
+                const x = touch.clientX - rect.left;
+                const y = touch.clientY - rect.top;
+                
+                // Atualizar ponto visual
+                updateTouchPoint(touch.identifier, x, y);
+            }
+            
+            updateLastEvent('touchmove', e.changedTouches);
+        });
+
+        touchArea.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            
+            // Processar cada toque
+            for (let i = 0; i < e.changedTouches.length; i++) {
+                const touch = e.changedTouches[i];
+                
+                // Remover ponto visual
+                removeTouchPoint(touch.identifier);
+                delete activePoints[touch.identifier];
+            }
+            
+            updateTouchCount();
+            updateLastEvent('touchend', e.changedTouches);
+        });
+
+        touchArea.addEventListener('touchcancel', function(e) {
+            e.preventDefault();
+            
+            // Processar cada toque
+            for (let i = 0; i < e.changedTouches.length; i++) {
+                const touch = e.changedTouches[i];
+                
+                // Remover ponto visual
+                removeTouchPoint(touch.identifier);
+                delete activePoints[touch.identifier];
+            }
+            
+            updateTouchCount();
+            updateLastEvent('touchcancel', e.changedTouches);
+        });
+
+        // Event Listeners para o teste de precisão
+        precisionArea.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            
+            if (!precisionTest.active) {
+                startPrecisionTest();
+                return;
+            }
+            
+            if (e.touches.length > 0) {
+                const touch = e.touches[0];
+                const rect = precisionArea.getBoundingClientRect();
+                const x = touch.clientX - rect.left;
+                const y = touch.clientY - rect.top;
+                
+                checkTargetHit(x, y);
+            }
+        });
+
+        precisionArea.addEventListener('mousedown', function(e) {
+            if (!precisionTest.active) {
+                startPrecisionTest();
+                return;
+            }
+            
+            const rect = precisionArea.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            checkTargetHit(x, y);
+        });
+
+        // Event Listener para reiniciar o teste de precisão
+        restartPrecision.addEventListener('click', function() {
+            startPrecisionTest();
+        });
+
+        // Event Listener para limpar os toques
+        clearButton.addEventListener('click', function() {
+            // Remover todos os pontos visuais
+            for (const id in activePoints) {
+                removeTouchPoint(id);
+            }
+            
+            activePoints = {};
+            updateTouchCount();
+            lastEvent.innerHTML = 'Nenhum evento';
+        });
+
+        // Event Listeners para o teste de swipe
+        swipeArea.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            
+            if (e.touches.length > 0) {
+                const touch = e.touches[0];
+                const rect = swipeArea.getBoundingClientRect();
+                const startX = touch.clientX - rect.left;
+                
+                // Armazenar posição inicial
+                swipeArea.dataset.startX = startX;
+            }
+        });
+
+        swipeArea.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+            
+            if (e.touches.length > 0) {
+                const touch = e.touches[0];
+                const rect = swipeArea.getBoundingClientRect();
+                const currentX = touch.clientX - rect.left;
+                const startX = parseFloat(swipeArea.dataset.startX || 0);
+                
+                // Calcular progresso do swipe (0-100%)
+                let progress = ((currentX - startX) / rect.width) * 100;
+                progress = Math.max(0, Math.min(100, progress));
+                
+                // Atualizar indicador visual
+                swipeIndicator.style.width = progress + '%';
+                
+                if (progress >= 90) {
+                    swipeText.textContent = 'Swipe detectado!';
+                    gesturesDetected.swipe = true;
+                    updateGestureResult();
+                }
+            }
+        });
+
+        swipeArea.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            
+            // Resetar após um tempo
+            setTimeout(() => {
+                swipeIndicator.style.width = '0%';
+                swipeText.textContent = 'Deslize →';
+            }, 1000);
+        });
+
+        // Event Listeners para o teste de pinch
+        pinchArea.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            
+            if (e.touches.length === 2) {
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                
+                // Calcular distância inicial entre os dois toques
+                const dx = touch1.clientX - touch2.clientX;
+                const dy = touch1.clientY - touch2.clientY;
+                initialPinchDistance = Math.sqrt(dx * dx + dy * dy);
+            }
+        });
+
+        pinchArea.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+            
+            if (e.touches.length === 2) {
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                
+                // Calcular distância atual entre os dois toques
+                const dx = touch1.clientX - touch2.clientX;
+                const dy = touch1.clientY - touch2.clientY;
+                const currentDistance = Math.sqrt(dx * dx + dy * dy);
+                
+                // Calcular escala
+                const scale = currentDistance / initialPinchDistance;
+                
+                // Aplicar transformação (limitar entre 0.5 e 2.0)
+                const limitedScale = Math.max(0.5, Math.min(2.0, scale));
+                pinchCircle.style.transform = `scale(${limitedScale})`;
+                pinchScale.textContent = Math.round(limitedScale * 100) + '%';
+                
+                // Marcar gesto como detectado
+                if (Math.abs(scale - 1) > 0.2) {
+                    gesturesDetected.pinch = true;
+                    updateGestureResult();
+                }
+            }
+        });
+
+        // Event Listeners para o teste de rotação
+        rotationArea.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            
+            if (e.touches.length === 2) {
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                
+                // Calcular ângulo inicial
+                const dx = touch1.clientX - touch2.clientX;
+                const dy = touch1.clientY - touch2.clientY;
+                initialRotation = Math.atan2(dy, dx) * (180 / Math.PI);
+                
+                // Armazenar rotação atual
+                rotationArea.dataset.currentRotation = rotationElement.style.transform 
+                    ? parseInt(rotationElement.style.transform.replace(/[^0-9-]/g, '')) || 0 
+                    : 0;
+            }
+        });
+
+        rotationArea.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+            
+            if (e.touches.length === 2) {
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                
+                // Calcular ângulo atual
+                const dx = touch1.clientX - touch2.clientX;
+                const dy = touch1.clientY - touch2.clientY;
+                const currentRotation = Math.atan2(dy, dx) * (180 / Math.PI);
+                
+                // Calcular diferença de ângulo
+                let rotationDiff = currentRotation - initialRotation;
+                
+                // Aplicar rotação
+                const baseRotation = parseInt(rotationArea.dataset.currentRotation || 0);
+                const newRotation = baseRotation + rotationDiff;
+                rotationElement.style.transform = `rotate(${newRotation}deg)`;
+                rotationValue.textContent = Math.round(newRotation) + '°';
+                
+                // Marcar gesto como detectado
+                if (Math.abs(rotationDiff) > 30) {
+                    gesturesDetected.rotate = true;
+                    updateGestureResult();
+                }
+            }
+        });
+
+        // Event Listeners para o teste de toque duplo
+        doubletapArea.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            
+            const now = new Date().getTime();
+            const timeSince = now - lastTap;
+            
+            if (timeSince < 300 && timeSince > 0) {
+                // Toque duplo detectado
+                doubletapText.textContent = 'Toque duplo detectado!';
+                doubletapArea.style.backgroundColor = '#dbeafe';
+                
+                gesturesDetected.doubleTap = true;
+                updateGestureResult();
+                
+                // Resetar após um tempo
+                setTimeout(() => {
+                    doubletapText.textContent = 'Toque duplo aqui';
+                    doubletapArea.style.backgroundColor = '';
+                }, 1000);
+            }
+            
+            lastTap = now;
+        });
+
+        // Inicialização
+        window.addEventListener('load', function() {
+            detectDeviceInfo();
+        });
+    </script>
+</body>
+</html>

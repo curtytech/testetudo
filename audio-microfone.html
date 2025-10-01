@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Áudio e Microfone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#2563EB',
+                        success: '#10B981',
+                        danger: '#EF4444',
+                        warning: '#F59E0B',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .animate-pulse-slow {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-primary mb-2">Teste de Áudio e Microfone</h1>
+            <p class="text-gray-400">Verifique se seu microfone e alto-falantes estão funcionando corretamente</p>
+        </header>
+
+        <!-- Seção de Permissões -->
+        <div id="permissions-section" class="bg-gray-800 rounded-lg p-6 shadow-lg mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-blue-300">Permissões</h2>
+            
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1 bg-gray-700 rounded-lg p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-lg font-medium">Microfone</h3>
+                        <span id="mic-status" class="px-3 py-1 rounded-full text-xs font-medium bg-gray-600 text-gray-300">Não solicitado</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Necessário para testar a entrada de áudio</p>
+                    <button id="request-mic" class="w-full bg-primary hover:bg-secondary text-white font-medium py-2 px-4 rounded-md transition-colors">
+                        Solicitar Acesso ao Microfone
+                    </button>
+                </div>
+                
+                <div class="flex-1 bg-gray-700 rounded-lg p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-lg font-medium">Alto-falantes</h3>
+                        <span id="audio-status" class="px-3 py-1 rounded-full text-xs font-medium bg-gray-600 text-gray-300">Não testado</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">Necessário para testar a saída de áudio</p>
+                    <button id="test-audio" class="w-full bg-primary hover:bg-secondary text-white font-medium py-2 px-4 rounded-md transition-colors" disabled>
+                        Testar Alto-falantes
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Teste de Microfone -->
+        <div id="mic-test-section" class="bg-gray-800 rounded-lg p-6 shadow-lg mb-8 opacity-50">
+            <h2 class="text-xl font-semibold mb-4 text-blue-300">Teste de Microfone</h2>
+            
+            <div class="mb-6">
+                <div class="flex justify-between mb-1">
+                    <span class="text-sm font-medium text-gray-300">Nível de Entrada</span>
+                    <span id="mic-level" class="text-sm font-medium text-green-400">0%</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-4">
+                    <div id="mic-level-bar" class="bg-green-500 h-4 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <div class="bg-gray-700 rounded-lg p-4 mb-4">
+                <h3 class="text-lg font-medium mb-2">Visualização de Áudio</h3>
+                <div class="h-48 bg-gray-800 rounded-lg overflow-hidden">
+                    <canvas id="audio-visualizer"></canvas>
+                </div>
+            </div>
+            
+            <div class="bg-gray-700 rounded-lg p-4">
+                <h3 class="text-lg font-medium mb-2">Dispositivos de Entrada</h3>
+                <select id="mic-devices" class="w-full bg-gray-800 text-white rounded-md p-2 mb-2">
+                    <option value="">Selecione um dispositivo...</option>
+                </select>
+                <p id="no-devices-message" class="text-sm text-gray-400 hidden">Nenhum dispositivo de entrada encontrado.</p>
+            </div>
+        </div>
+
+        <!-- Seção de Teste de Alto-falantes -->
+        <div id="speaker-test-section" class="bg-gray-800 rounded-lg p-6 shadow-lg mb-8 opacity-50">
+            <h2 class="text-xl font-semibold mb-4 text-blue-300">Teste de Alto-falantes</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div class="bg-gray-700 rounded-lg p-4">
+                    <h3 class="text-lg font-medium mb-2">Som de Teste</h3>
+                    <p class="text-sm text-gray-400 mb-4">Reproduza um som para verificar seus alto-falantes</p>
+                    <div class="flex space-x-2">
+                        <button id="play-beep" class="flex-1 bg-primary hover:bg-secondary text-white font-medium py-2 px-4 rounded-md transition-colors" disabled>
+                            Bipe
+                        </button>
+                        <button id="play-voice" class="flex-1 bg-primary hover:bg-secondary text-white font-medium py-2 px-4 rounded-md transition-colors" disabled>
+                            Voz
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-700 rounded-lg p-4">
+                    <h3 class="text-lg font-medium mb-2">Controle de Volume</h3>
+                    <div class="mb-4">
+                        <label for="volume-control" class="block text-sm font-medium text-gray-300 mb-1">Volume:</label>
+                        <input type="range" id="volume-control" min="0" max="100" value="75" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer">
+                        <div class="flex justify-between text-xs text-gray-400 mt-1">
+                            <span>0%</span>
+                            <span id="volume-value">75%</span>
+                            <span>100%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-gray-700 rounded-lg p-4">
+                <h3 class="text-lg font-medium mb-2">Dispositivos de Saída</h3>
+                <select id="audio-devices" class="w-full bg-gray-800 text-white rounded-md p-2 mb-2">
+                    <option value="">Selecione um dispositivo...</option>
+                </select>
+                <p id="no-audio-devices-message" class="text-sm text-gray-400 hidden">Nenhum dispositivo de saída encontrado.</p>
+            </div>
+        </div>
+
+        <!-- Seção de Teste de Vibração -->
+        <div id="vibration-test-section" class="bg-gray-800 rounded-lg p-6 shadow-lg mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-blue-300">Teste de Vibração</h2>
+            
+            <div class="bg-gray-700 rounded-lg p-4 mb-4">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-lg font-medium">Vibração do Dispositivo</h3>
+                    <span id="vibration-status" class="px-3 py-1 rounded-full text-xs font-medium bg-gray-600 text-gray-300">Não testado</span>
+                </div>
+                <p class="text-sm text-gray-400 mb-4">Teste a capacidade de vibração do seu dispositivo</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <button id="vibrate-short" class="bg-primary hover:bg-secondary text-white font-medium py-2 px-4 rounded-md transition-colors">
+                        Vibração Curta
+                    </button>
+                    <button id="vibrate-medium" class="bg-primary hover:bg-secondary text-white font-medium py-2 px-4 rounded-md transition-colors">
+                        Vibração Média
+                    </button>
+                    <button id="vibrate-long" class="bg-primary hover:bg-secondary text-white font-medium py-2 px-4 rounded-md transition-colors">
+                        Vibração Longa
+                    </button>
+                </div>
+            </div>
+            
+            <div class="bg-gray-700 rounded-lg p-4">
+                <h3 class="text-lg font-medium mb-2">Padrões de Vibração</h3>
+                <p class="text-sm text-gray-400 mb-4">Teste diferentes padrões de vibração</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <button id="vibrate-pattern-1" class="bg-primary hover:bg-secondary text-white font-medium py-2 px-4 rounded-md transition-colors">
+                        Padrão: SOS
+                    </button>
+                    <button id="vibrate-pattern-2" class="bg-primary hover:bg-secondary text-white font-medium py-2 px-4 rounded-md transition-colors">
+                        Padrão: Pulso
+                    </button>
+                    <button id="vibrate-pattern-3" class="bg-primary hover:bg-secondary text-white font-medium py-2 px-4 rounded-md transition-colors">
+                        Padrão: Ritmo
+                    </button>
+                    <button id="vibrate-stop" class="bg-danger hover:bg-red-600 text-white font-medium py-2 px-4 rounded-md transition-colors">
+                        Parar Vibração
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Resultados -->
+        <div id="results-section" class="bg-gray-800 rounded-lg p-6 shadow-lg">
+            <h2 class="text-xl font-semibold mb-4 text-blue-300">Resultados</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-gray-700 rounded-lg p-4">
+                    <h3 class="text-lg font-medium mb-2">Microfone</h3>
+                    <div class="flex items-center space-x-2">
+                        <div id="mic-result-icon" class="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
+                            <span class="text-gray-300">?</span>
+                        </div>
+                        <div>
+                            <p id="mic-result-text" class="font-medium text-gray-300">Não testado</p>
+                            <p id="mic-result-details" class="text-xs text-gray-400">Execute o teste para verificar</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-700 rounded-lg p-4">
+                    <h3 class="text-lg font-medium mb-2">Alto-falantes</h3>
+                    <div class="flex items-center space-x-2">
+                        <div id="audio-result-icon" class="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
+                            <span class="text-gray-300">?</span>
+                        </div>
+                        <div>
+                            <p id="audio-result-text" class="font-medium text-gray-300">Não testado</p>
+                            <p id="audio-result-details" class="text-xs text-gray-400">Execute o teste para verificar</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-700 rounded-lg p-4">
+                    <h3 class="text-lg font-medium mb-2">Vibração</h3>
+                    <div class="flex items-center space-x-2">
+                        <div id="vibration-result-icon" class="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
+                            <span class="text-gray-300">?</span>
+                        </div>
+                        <div>
+                            <p id="vibration-result-text" class="font-medium text-gray-300">Não testado</p>
+                            <p id="vibration-result-details" class="text-xs text-gray-400">Execute o teste para verificar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegação -->
+        <div class="mt-8 text-center">
+            <a href="index.html" class="inline-block bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-6 rounded-md transition-colors">
+                Voltar para o Início
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Elementos DOM
+        const requestMicBtn = document.getElementById('request-mic');
+        const testAudioBtn = document.getElementById('test-audio');
+        const playBeepBtn = document.getElementById('play-beep');
+        const playVoiceBtn = document.getElementById('play-voice');
+        const micStatusEl = document.getElementById('mic-status');
+        const audioStatusEl = document.getElementById('audio-status');
+        const micLevelEl = document.getElementById('mic-level');
+        const micLevelBar = document.getElementById('mic-level-bar');
+        const micDevicesSelect = document.getElementById('mic-devices');
+        const audioDevicesSelect = document.getElementById('audio-devices');
+        const noDevicesMessage = document.getElementById('no-devices-message');
+        const noAudioDevicesMessage = document.getElementById('no-audio-devices-message');
+        const volumeControl = document.getElementById('volume-control');
+        const volumeValue = document.getElementById('volume-value');
+        const micTestSection = document.getElementById('mic-test-section');
+        const speakerTestSection = document.getElementById('speaker-test-section');
+        const micResultIcon = document.getElementById('mic-result-icon');
+        const micResultText = document.getElementById('mic-result-text');
+        const micResultDetails = document.getElementById('mic-result-details');
+        const audioResultIcon = document.getElementById('audio-result-icon');
+        const audioResultText = document.getElementById('audio-result-text');
+        const audioResultDetails = document.getElementById('audio-result-details');
+        const audioVisualizer = document.getElementById('audio-visualizer');
+        
+        // Elementos de vibração
+        const vibrateShortBtn = document.getElementById('vibrate-short');
+        const vibrateMediumBtn = document.getElementById('vibrate-medium');
+        const vibrateLongBtn = document.getElementById('vibrate-long');
+        const vibratePattern1Btn = document.getElementById('vibrate-pattern-1');
+        const vibratePattern2Btn = document.getElementById('vibrate-pattern-2');
+        const vibratePattern3Btn = document.getElementById('vibrate-pattern-3');
+        const vibrateStopBtn = document.getElementById('vibrate-stop');
+        const vibrationStatusEl = document.getElementById('vibration-status');
+        const vibrationResultIcon = document.getElementById('vibration-result-icon');
+        const vibrationResultText = document.getElementById('vibration-result-text');
+        const vibrationResultDetails = document.getElementById('vibration-result-details');
+
+        // Variáveis globais
+        let audioContext;
+        let analyser;
+        let microphone;
+        let canvasContext;
+        let dataArray;
+        let animationFrame;
+        let audioTested = false;
+        let micTested = false;
+        let vibrationTested = false;
+        let currentVolume = 0.75;
+        let vibrationSupported = 'vibrate' in navigator;
+
+        // Inicializar canvas para visualização
+        function initCanvas() {
+            canvasContext = audioVisualizer.getContext('2d');
+            audioVisualizer.width = audioVisualizer.offsetWidth;
+            audioVisualizer.height = audioVisualizer.offsetHeight;
+        }
+
+        // Atualizar o controle de volume
+        volumeControl.addEventListener('input', () => {
+            currentVolume = volumeControl.value / 100;
+            volumeValue.textContent = `${volumeControl.value}%`;
+        });
+
+        // Solicitar acesso ao microfone
+        requestMicBtn.addEventListener('click', async () => {
+            try {
+                micStatusEl.textContent = 'Solicitando...';
+                micStatusEl.className = 'px-3 py-1 rounded-full text-xs font-medium bg-yellow-500 text-yellow-900';
+                
+                // Solicitar permissão para o microfone
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                // Atualizar status
+                micStatusEl.textContent = 'Permitido';
+                micStatusEl.className = 'px-3 py-1 rounded-full text-xs font-medium bg-green-500 text-green-900';
+                
+                // Habilitar seção de teste de microfone
+                micTestSection.classList.remove('opacity-50');
+                
+                // Habilitar botão de teste de áudio
+                testAudioBtn.disabled = false;
+                
+                // Inicializar contexto de áudio
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                
+                // Conectar microfone ao analisador
+                microphone = audioContext.createMediaStreamSource(stream);
+                microphone.connect(analyser);
+                
+                // Preparar visualização
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+                initCanvas();
+                visualize();
+                
+                // Atualizar resultado do microfone
+                updateMicResult(true);
+                
+                // Listar dispositivos de entrada
+                await listMicDevices();
+                
+                // Monitorar nível de entrada
+                monitorMicLevel();
+                
+            } catch (error) {
+                console.error('Erro ao acessar o microfone:', error);
+                micStatusEl.textContent = 'Negado';
+                micStatusEl.className = 'px-3 py-1 rounded-full text-xs font-medium bg-red-500 text-red-900';
+                updateMicResult(false, error.message);
+            }
+        });
+
+        // Testar alto-falantes
+        testAudioBtn.addEventListener('click', () => {
+            // Habilitar seção de teste de alto-falantes
+            speakerTestSection.classList.remove('opacity-50');
+            
+            // Habilitar botões de teste
+            playBeepBtn.disabled = false;
+            playVoiceBtn.disabled = false;
+            
+            // Atualizar status
+            audioStatusEl.textContent = 'Pronto para teste';
+            audioStatusEl.className = 'px-3 py-1 rounded-full text-xs font-medium bg-yellow-500 text-yellow-900';
+            
+            // Listar dispositivos de saída
+            listAudioDevices();
+        });
+
+        // Reproduzir som de bipe
+        playBeepBtn.addEventListener('click', () => {
+            playTestSound('beep');
+            audioTested = true;
+            updateAudioResult(true);
+        });
+
+        // Reproduzir som de voz
+        playVoiceBtn.addEventListener('click', () => {
+            playTestSound('voice');
+            audioTested = true;
+            updateAudioResult(true);
+        });
+
+        // Função para reproduzir som de teste
+        function playTestSound(type) {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            gainNode.gain.value = currentVolume;
+            
+            if (type === 'beep') {
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // Nota Lá (A4)
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.start();
+                
+                // Parar após 1 segundo
+                setTimeout(() => {
+                    oscillator.stop();
+                }, 1000);
+            } else if (type === 'voice') {
+                // Usar síntese de voz
+                const utterance = new SpeechSynthesisUtterance('Teste de áudio. Se você está ouvindo esta mensagem, seus alto-falantes estão funcionando corretamente.');
+                utterance.lang = 'pt-BR';
+                utterance.volume = currentVolume;
+                speechSynthesis.speak(utterance);
+            }
+            
+            // Atualizar status
+            audioStatusEl.textContent = 'Testado';
+            audioStatusEl.className = 'px-3 py-1 rounded-full text-xs font-medium bg-green-500 text-green-900';
+        }
+
+        // Função para listar dispositivos de microfone
+        async function listMicDevices() {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const micDevices = devices.filter(device => device.kind === 'audioinput');
+                
+                if (micDevices.length === 0) {
+                    noDevicesMessage.classList.remove('hidden');
+                    return;
+                }
+                
+                // Limpar select
+                micDevicesSelect.innerHTML = '';
+                
+                // Adicionar opções
+                micDevices.forEach(device => {
+                    const option = document.createElement('option');
+                    option.value = device.deviceId;
+                    option.text = device.label || `Microfone ${micDevicesSelect.options.length + 1}`;
+                    micDevicesSelect.appendChild(option);
+                });
+                
+            } catch (error) {
+                console.error('Erro ao listar dispositivos:', error);
+            }
+        }
+
+        // Função para listar dispositivos de áudio
+        async function listAudioDevices() {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const audioDevices = devices.filter(device => device.kind === 'audiooutput');
+                
+                if (audioDevices.length === 0) {
+                    noAudioDevicesMessage.classList.remove('hidden');
+                    return;
+                }
+                
+                // Limpar select
+                audioDevicesSelect.innerHTML = '';
+                
+                // Adicionar opções
+                audioDevices.forEach(device => {
+                    const option = document.createElement('option');
+                    option.value = device.deviceId;
+                    option.text = device.label || `Alto-falante ${audioDevicesSelect.options.length + 1}`;
+                    audioDevicesSelect.appendChild(option);
+                });
+                
+            } catch (error) {
+                console.error('Erro ao listar dispositivos de áudio:', error);
+            }
+        }
+
+        // Função para monitorar nível de entrada do microfone
+        function monitorMicLevel() {
+            if (!analyser) return;
+            
+            analyser.getByteFrequencyData(dataArray);
+            
+            // Calcular média do volume
+            let sum = 0;
+            for (let i = 0; i < dataArray.length; i++) {
+                sum += dataArray[i];
+            }
+            
+            const average = sum / dataArray.length;
+            const level = Math.min(100, Math.round((average / 255) * 100));
+            
+            // Atualizar UI
+            micLevelEl.textContent = `${level}%`;
+            micLevelBar.style.width = `${level}%`;
+            
+            // Continuar monitorando
+            requestAnimationFrame(monitorMicLevel);
+        }
+
+        // Função para visualizar áudio
+        function visualize() {
+            if (!analyser) return;
+            
+            // Limpar canvas
+            canvasContext.clearRect(0, 0, audioVisualizer.width, audioVisualizer.height);
+            
+            // Configurar visualização
+            analyser.getByteFrequencyData(dataArray);
+            
+            const barWidth = (audioVisualizer.width / dataArray.length) * 2.5;
+            let barHeight;
+            let x = 0;
+            
+            // Desenhar barras
+            for (let i = 0; i < dataArray.length; i++) {
+                barHeight = dataArray[i] / 2;
+                
+                // Gradiente baseado na altura
+                const hue = (i / dataArray.length) * 120 + 180; // 180-300 (ciano para roxo)
+                canvasContext.fillStyle = `hsl(${hue}, 100%, ${50 + barHeight / 4}%)`;
+                
+                canvasContext.fillRect(x, audioVisualizer.height - barHeight, barWidth, barHeight);
+                
+                x += barWidth + 1;
+            }
+            
+            // Continuar animação
+            animationFrame = requestAnimationFrame(visualize);
+        }
+
+        // Atualizar resultado do microfone
+        function updateMicResult(success, errorMsg = '') {
+            micTested = true;
+            
+            if (success) {
+                micResultIcon.innerHTML = '<svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                micResultIcon.className = 'w-8 h-8 rounded-full bg-green-900 flex items-center justify-center';
+                micResultText.textContent = 'Funcionando';
+                micResultText.className = 'font-medium text-green-400';
+                micResultDetails.textContent = 'Seu microfone está funcionando corretamente';
+            } else {
+                micResultIcon.innerHTML = '<svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
+                micResultIcon.className = 'w-8 h-8 rounded-full bg-red-900 flex items-center justify-center';
+                micResultText.textContent = 'Problema detectado';
+                micResultText.className = 'font-medium text-red-400';
+                micResultDetails.textContent = errorMsg || 'Não foi possível acessar o microfone';
+            }
+        }
+
+        // Atualizar resultado do áudio
+        function updateAudioResult(success, errorMsg = '') {
+            if (success) {
+                audioResultIcon.innerHTML = '<svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                audioResultIcon.className = 'w-8 h-8 rounded-full bg-green-900 flex items-center justify-center';
+                audioResultText.textContent = 'Funcionando';
+                audioResultText.className = 'font-medium text-green-400';
+                audioResultDetails.textContent = 'Seus alto-falantes estão funcionando corretamente';
+            } else {
+                audioResultIcon.innerHTML = '<svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
+                audioResultIcon.className = 'w-8 h-8 rounded-full bg-red-900 flex items-center justify-center';
+                audioResultText.textContent = 'Problema detectado';
+                audioResultText.className = 'font-medium text-red-400';
+                audioResultDetails.textContent = errorMsg || 'Não foi possível testar os alto-falantes';
+            }
+        }
+
+        // Verificar suporte a API de áudio
+        function checkAudioSupport() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert('Seu navegador não suporta acesso ao microfone. Por favor, use um navegador mais recente como Chrome, Firefox ou Edge.');
+                requestMicBtn.disabled = true;
+                requestMicBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                updateMicResult(false, 'Navegador não suportado');
+                return false;
+            }
+            return true;
+        }
+
+        // Função para testar vibração
+        function testVibration(pattern) {
+            if (!vibrationSupported) {
+                updateVibrationResult(false, 'Seu dispositivo não suporta vibração');
+                return;
+            }
+            
+            try {
+                navigator.vibrate(pattern);
+                vibrationTested = true;
+                updateVibrationResult(true);
+                
+                // Atualizar status
+                vibrationStatusEl.textContent = 'Testado';
+                vibrationStatusEl.className = 'px-3 py-1 rounded-full text-xs font-medium bg-green-500 text-green-900';
+            } catch (error) {
+                console.error('Erro ao vibrar:', error);
+                updateVibrationResult(false, error.message);
+            }
+        }
+        
+        // Parar vibração
+        function stopVibration() {
+            if (vibrationSupported) {
+                navigator.vibrate(0);
+            }
+        }
+        
+        // Atualizar resultado da vibração
+        function updateVibrationResult(success, errorMsg = '') {
+            if (success) {
+                vibrationResultIcon.innerHTML = '<svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                vibrationResultIcon.className = 'w-8 h-8 rounded-full bg-green-900 flex items-center justify-center';
+                vibrationResultText.textContent = 'Funcionando';
+                vibrationResultText.className = 'font-medium text-green-400';
+                vibrationResultDetails.textContent = 'Seu dispositivo suporta vibração';
+            } else {
+                vibrationResultIcon.innerHTML = '<svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
+                vibrationResultIcon.className = 'w-8 h-8 rounded-full bg-red-900 flex items-center justify-center';
+                vibrationResultText.textContent = 'Problema detectado';
+                vibrationResultText.className = 'font-medium text-red-400';
+                vibrationResultDetails.textContent = errorMsg || 'Não foi possível testar a vibração';
+            }
+        }
+        
+        // Eventos de vibração
+        if (vibrateShortBtn) {
+            vibrateShortBtn.addEventListener('click', () => testVibration(200));
+        }
+        
+        if (vibrateMediumBtn) {
+            vibrateMediumBtn.addEventListener('click', () => testVibration(500));
+        }
+        
+        if (vibrateLongBtn) {
+            vibrateLongBtn.addEventListener('click', () => testVibration(1000));
+        }
+        
+        if (vibratePattern1Btn) {
+            // Padrão SOS: ... --- ...
+            vibratePattern1Btn.addEventListener('click', () => testVibration([100, 100, 100, 100, 100, 100, 300, 200, 300, 200, 300, 200, 100, 100, 100, 100, 100]));
+        }
+        
+        if (vibratePattern2Btn) {
+            // Padrão de pulso
+            vibratePattern2Btn.addEventListener('click', () => testVibration([100, 50, 100, 50, 100, 50, 100, 50, 100]));
+        }
+        
+        if (vibratePattern3Btn) {
+            // Padrão rítmico
+            vibratePattern3Btn.addEventListener('click', () => testVibration([100, 200, 300, 200, 100, 200, 300, 500]));
+        }
+        
+        if (vibrateStopBtn) {
+            vibrateStopBtn.addEventListener('click', stopVibration);
+        }
+
+        // Inicializar
+        window.addEventListener('load', () => {
+            checkAudioSupport();
+            initCanvas();
+            
+            // Verificar suporte à vibração
+            if (!vibrationSupported) {
+                document.getElementById('vibration-test-section').classList.add('opacity-50');
+                Array.from(document.querySelectorAll('#vibration-test-section button')).forEach(btn => {
+                    btn.disabled = true;
+                    btn.classList.add('opacity-50', 'cursor-not-allowed');
+                });
+                
+                vibrationStatusEl.textContent = 'Não suportado';
+                vibrationStatusEl.className = 'px-3 py-1 rounded-full text-xs font-medium bg-red-500 text-red-900';
+                
+                updateVibrationResult(false, 'Seu dispositivo não suporta vibração');
+            }
+        });
+
+        // Redimensionar canvas quando a janela for redimensionada
+        window.addEventListener('resize', () => {
+            if (audioVisualizer) {
+                audioVisualizer.width = audioVisualizer.offsetWidth;
+                audioVisualizer.height = audioVisualizer.offsetHeight;
+            }
+        });
+    </script>
+</body>
+</html>

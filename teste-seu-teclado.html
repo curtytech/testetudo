@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste seu Teclado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#1e40af',
+                        success: '#10b981',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center p-4">
+    <header class="w-full max-w-4xl text-center mb-8">
+        <h1 class="text-4xl font-bold text-primary mb-2">Teste seu Teclado</h1>
+        <p class="text-gray-400">Pressione qualquer tecla para testá-la</p>
+    </header>
+
+    <main class="w-full max-w-4xl">
+        <!-- Área de informações da tecla pressionada -->
+        <div class="bg-gray-800 rounded-lg p-6 mb-8 shadow-lg">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-gray-700 rounded p-4 text-center">
+                    <h2 class="text-sm text-gray-400 mb-1">Tecla</h2>
+                    <p id="key" class="text-3xl font-bold">-</p>
+                </div>
+                <div class="bg-gray-700 rounded p-4 text-center">
+                    <h2 class="text-sm text-gray-400 mb-1">Código</h2>
+                    <p id="code" class="text-3xl font-bold">-</p>
+                </div>
+                <div class="bg-gray-700 rounded p-4 text-center">
+                    <h2 class="text-sm text-gray-400 mb-1">KeyCode</h2>
+                    <p id="keyCode" class="text-3xl font-bold">-</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teclado virtual -->
+        <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
+            <h2 class="text-xl font-semibold mb-4 text-center">Teclado Virtual</h2>
+            
+            <!-- Primeira fileira - Números -->
+            <div class="flex flex-wrap justify-center gap-1 mb-2">
+                <div class="key" data-key="Backquote">`</div>
+                <div class="key" data-key="Digit1">1</div>
+                <div class="key" data-key="Digit2">2</div>
+                <div class="key" data-key="Digit3">3</div>
+                <div class="key" data-key="Digit4">4</div>
+                <div class="key" data-key="Digit5">5</div>
+                <div class="key" data-key="Digit6">6</div>
+                <div class="key" data-key="Digit7">7</div>
+                <div class="key" data-key="Digit8">8</div>
+                <div class="key" data-key="Digit9">9</div>
+                <div class="key" data-key="Digit0">0</div>
+                <div class="key" data-key="Minus">-</div>
+                <div class="key" data-key="Equal">=</div>
+                <div class="key key-wide" data-key="Backspace">Backspace</div>
+            </div>
+            
+            <!-- Segunda fileira -->
+            <div class="flex flex-wrap justify-center gap-1 mb-2">
+                <div class="key key-wide" data-key="Tab">Tab</div>
+                <div class="key" data-key="KeyQ">Q</div>
+                <div class="key" data-key="KeyW">W</div>
+                <div class="key" data-key="KeyE">E</div>
+                <div class="key" data-key="KeyR">R</div>
+                <div class="key" data-key="KeyT">T</div>
+                <div class="key" data-key="KeyY">Y</div>
+                <div class="key" data-key="KeyU">U</div>
+                <div class="key" data-key="KeyI">I</div>
+                <div class="key" data-key="KeyO">O</div>
+                <div class="key" data-key="KeyP">P</div>
+                <div class="key" data-key="BracketLeft">[</div>
+                <div class="key" data-key="BracketRight">]</div>
+                <div class="key" data-key="Backslash">\</div>
+            </div>
+            
+            <!-- Terceira fileira -->
+            <div class="flex flex-wrap justify-center gap-1 mb-2">
+                <div class="key key-wide" data-key="CapsLock">Caps</div>
+                <div class="key" data-key="KeyA">A</div>
+                <div class="key" data-key="KeyS">S</div>
+                <div class="key" data-key="KeyD">D</div>
+                <div class="key" data-key="KeyF">F</div>
+                <div class="key" data-key="KeyG">G</div>
+                <div class="key" data-key="KeyH">H</div>
+                <div class="key" data-key="KeyJ">J</div>
+                <div class="key" data-key="KeyK">K</div>
+                <div class="key" data-key="KeyL">L</div>
+                <div class="key" data-key="Semicolon">;</div>
+                <div class="key" data-key="Quote">'</div>
+                <div class="key key-wide" data-key="Enter">Enter</div>
+            </div>
+            
+            <!-- Quarta fileira -->
+            <div class="flex flex-wrap justify-center gap-1 mb-2">
+                <div class="key key-wider" data-key="ShiftLeft">Shift</div>
+                <div class="key" data-key="KeyZ">Z</div>
+                <div class="key" data-key="KeyX">X</div>
+                <div class="key" data-key="KeyC">C</div>
+                <div class="key" data-key="KeyV">V</div>
+                <div class="key" data-key="KeyB">B</div>
+                <div class="key" data-key="KeyN">N</div>
+                <div class="key" data-key="KeyM">M</div>
+                <div class="key" data-key="Comma">,</div>
+                <div class="key" data-key="Period">.</div>
+                <div class="key" data-key="Slash">/</div>
+                <div class="key key-wider" data-key="ShiftRight">Shift</div>
+            </div>
+            
+            <!-- Quinta fileira -->
+            <div class="flex flex-wrap justify-center gap-1">
+                <div class="key" data-key="ControlLeft">Ctrl</div>
+                <div class="key" data-key="Fn">Fn</div>
+                <div class="key" data-key="MetaLeft">Win</div>
+                <div class="key" data-key="AltLeft">Alt</div>
+                <div class="key key-widest" data-key="Space">Espaço</div>
+                <div class="key" data-key="AltRight">Alt</div>
+                <div class="key" data-key="MetaRight">Win</div>
+                <div class="key" data-key="ContextMenu">Menu</div>
+                <div class="key" data-key="ControlRight">Ctrl</div>
+            </div>
+        </div>
+
+        <!-- Histórico de teclas -->
+        <div class="bg-gray-800 rounded-lg p-6 mt-8 shadow-lg">
+            <h2 class="text-xl font-semibold mb-4 text-center">Histórico de Teclas</h2>
+            <div id="history" class="bg-gray-700 rounded p-4 h-32 overflow-y-auto flex flex-col-reverse">
+                <!-- O histórico será preenchido via JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-8 text-gray-500 text-center">
+        <p>Desenvolvido com JavaScript e Tailwind CSS</p>
+    </footer>
+
+    <style>
+        .key {
+            @apply bg-gray-700 text-center py-3 px-4 rounded shadow-md transition-all duration-200 min-w-[40px] text-sm;
+        }
+        .key-wide {
+            @apply min-w-[80px];
+        }
+        .key-wider {
+            @apply min-w-[100px];
+        }
+        .key-widest {
+            @apply min-w-[200px];
+        }
+        .key-active {
+            @apply bg-primary text-white transform scale-95;
+        }
+    </style>
+
+    <script src="script.js"></script>
+</body>
+</html>

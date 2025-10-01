@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Stress do Processador</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        .animate-pulse-slow {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-blue-400 mb-2">Teste de Stress do Processador</h1>
+            <p class="text-gray-400">Avalie o desempenho do seu processador sob carga</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <!-- Painel de Controle -->
+            <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
+                <h2 class="text-xl font-semibold mb-4 text-blue-300">Painel de Controle</h2>
+                
+                <div class="mb-4">
+                    <label for="threads" class="block text-sm font-medium text-gray-300 mb-1">Número de Threads:</label>
+                    <input type="range" id="threads" min="1" max="16" value="4" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                    <div class="flex justify-between text-xs text-gray-400 mt-1">
+                        <span>1</span>
+                        <span id="threadsValue">4</span>
+                        <span>16</span>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="intensity" class="block text-sm font-medium text-gray-300 mb-1">Intensidade:</label>
+                    <input type="range" id="intensity" min="1" max="10" value="5" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                    <div class="flex justify-between text-xs text-gray-400 mt-1">
+                        <span>Baixa</span>
+                        <span id="intensityValue">Média</span>
+                        <span>Alta</span>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="duration" class="block text-sm font-medium text-gray-300 mb-1">Duração (segundos):</label>
+                    <input type="range" id="duration" min="10" max="300" value="60" step="10" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                    <div class="flex justify-between text-xs text-gray-400 mt-1">
+                        <span>10s</span>
+                        <span id="durationValue">60s</span>
+                        <span>300s</span>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-4 mt-6">
+                    <button id="startTest" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors">
+                        Iniciar Teste
+                    </button>
+                    <button id="stopTest" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition-colors opacity-50 cursor-not-allowed" disabled>
+                        Parar Teste
+                    </button>
+                </div>
+            </div>
+
+            <!-- Medidores de Desempenho -->
+            <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
+                <h2 class="text-xl font-semibold mb-4 text-blue-300">Desempenho em Tempo Real</h2>
+                
+                <div class="mb-6">
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium text-gray-300">Uso da CPU</span>
+                        <span id="cpuUsage" class="text-sm font-medium text-blue-400">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-4">
+                        <div id="cpuBar" class="bg-blue-500 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium text-gray-300">Threads Ativas</span>
+                        <span id="activeThreads" class="text-sm font-medium text-green-400">0</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-4">
+                        <div id="threadsBar" class="bg-green-500 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium text-gray-300">Tempo Restante</span>
+                        <span id="remainingTime" class="text-sm font-medium text-yellow-400">00:00</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-4">
+                        <div id="timeBar" class="bg-yellow-500 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resultados do Teste -->
+        <div class="bg-gray-800 rounded-lg p-6 shadow-lg mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-blue-300">Resultados</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-gray-700 rounded-lg p-4">
+                    <h3 class="text-lg font-medium text-gray-300 mb-2">Pontuação</h3>
+                    <p id="score" class="text-3xl font-bold text-blue-400">-</p>
+                    <p class="text-xs text-gray-400 mt-1">Pontos de desempenho</p>
+                </div>
+                
+                <div class="bg-gray-700 rounded-lg p-4">
+                    <h3 class="text-lg font-medium text-gray-300 mb-2">Uso Médio</h3>
+                    <p id="avgUsage" class="text-3xl font-bold text-green-400">-</p>
+                    <p class="text-xs text-gray-400 mt-1">Percentual médio de CPU</p>
+                </div>
+                
+                <div class="bg-gray-700 rounded-lg p-4">
+                    <h3 class="text-lg font-medium text-gray-300 mb-2">Estabilidade</h3>
+                    <p id="stability" class="text-3xl font-bold text-yellow-400">-</p>
+                    <p class="text-xs text-gray-400 mt-1">Variação de desempenho</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico de Desempenho -->
+        <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
+            <h2 class="text-xl font-semibold mb-4 text-blue-300">Gráfico de Desempenho</h2>
+            <div id="performanceGraph" class="w-full h-64 bg-gray-700 rounded-lg p-2 flex items-end space-x-1">
+                <!-- Barras do gráfico serão adicionadas dinamicamente -->
+            </div>
+            <div class="flex justify-between text-xs text-gray-400 mt-1">
+                <span>Início</span>
+                <span>Tempo</span>
+                <span>Fim</span>
+            </div>
+        </div>
+
+        <!-- Informações do Sistema -->
+        <div class="mt-8 text-center text-sm text-gray-500">
+            <p id="systemInfo">Carregando informações do sistema...</p>
+        </div>
+    </div>
+
+    <script>
+        // Variáveis globais
+        let isRunning = false;
+        let workers = [];
+        let startTime;
+        let testDuration;
+        let testInterval;
+        let usageHistory = [];
+        const maxGraphBars = 60;
+
+        // Elementos DOM
+        const threadsSlider = document.getElementById('threads');
+        const threadsValue = document.getElementById('threadsValue');
+        const intensitySlider = document.getElementById('intensity');
+        const intensityValue = document.getElementById('intensityValue');
+        const durationSlider = document.getElementById('duration');
+        const durationValue = document.getElementById('durationValue');
+        const startButton = document.getElementById('startTest');
+        const stopButton = document.getElementById('stopTest');
+        const cpuUsage = document.getElementById('cpuUsage');
+        const cpuBar = document.getElementById('cpuBar');
+        const activeThreads = document.getElementById('activeThreads');
+        const threadsBar = document.getElementById('threadsBar');
+        const remainingTime = document.getElementById('remainingTime');
+        const timeBar = document.getElementById('timeBar');
+        const score = document.getElementById('score');
+        const avgUsage = document.getElementById('avgUsage');
+        const stability = document.getElementById('stability');
+        const performanceGraph = document.getElementById('performanceGraph');
+        const systemInfo = document.getElementById('systemInfo');
+
+        // Atualizar valores dos sliders
+        threadsSlider.addEventListener('input', () => {
+            threadsValue.textContent = threadsSlider.value;
+        });
+
+        intensitySlider.addEventListener('input', () => {
+            const value = parseInt(intensitySlider.value);
+            let label = 'Média';
+            if (value <= 3) label = 'Baixa';
+            else if (value >= 8) label = 'Alta';
+            intensityValue.textContent = label;
+        });
+
+        durationSlider.addEventListener('input', () => {
+            durationValue.textContent = `${durationSlider.value}s`;
+        });
+
+        // Iniciar teste
+        startButton.addEventListener('click', startStressTest);
+        stopButton.addEventListener('click', stopStressTest);
+
+        // Função para iniciar o teste de stress
+        function startStressTest() {
+            if (isRunning) return;
+            isRunning = true;
+            
+            // Resetar resultados anteriores
+            resetResults();
+            
+            // Configurar teste
+            const threadCount = parseInt(threadsSlider.value);
+            const intensity = parseInt(intensitySlider.value);
+            testDuration = parseInt(durationSlider.value) * 1000; // Converter para milissegundos
+            startTime = Date.now();
+            
+            // Atualizar UI
+            startButton.disabled = true;
+            startButton.classList.add('opacity-50', 'cursor-not-allowed');
+            stopButton.disabled = false;
+            stopButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            
+            // Criar workers para simular carga na CPU
+            for (let i = 0; i < threadCount; i++) {
+                const worker = new Worker(createWorkerBlob(intensity));
+                workers.push(worker);
+            }
+            
+            // Atualizar contadores
+            activeThreads.textContent = threadCount;
+            threadsBar.style.width = `${(threadCount / 16) * 100}%`;
+            
+            // Iniciar monitoramento
+            testInterval = setInterval(updateTestStatus, 1000);
+            
+            // Simular uso da CPU (já que não podemos medir diretamente via JavaScript)
+            simulateCpuUsage();
+        }
+
+        // Função para parar o teste de stress
+        function stopStressTest() {
+            if (!isRunning) return;
+            
+            // Parar workers
+            workers.forEach(worker => worker.terminate());
+            workers = [];
+            
+            // Limpar intervalo
+            clearInterval(testInterval);
+            
+            // Atualizar UI
+            isRunning = false;
+            startButton.disabled = false;
+            startButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            stopButton.disabled = true;
+            stopButton.classList.add('opacity-50', 'cursor-not-allowed');
+            
+            // Calcular resultados finais
+            calculateResults();
+        }
+
+        // Função para atualizar o status do teste
+        function updateTestStatus() {
+            const elapsed = Date.now() - startTime;
+            const remaining = Math.max(0, testDuration - elapsed);
+            
+            // Atualizar barra de tempo
+            const percentComplete = Math.min(100, (elapsed / testDuration) * 100);
+            timeBar.style.width = `${percentComplete}%`;
+            
+            // Formatar tempo restante
+            const minutes = Math.floor(remaining / 60000);
+            const seconds = Math.floor((remaining % 60000) / 1000);
+            remainingTime.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Verificar se o teste terminou
+            if (remaining <= 0) {
+                stopStressTest();
+            }
+        }
+
+        // Função para simular uso da CPU
+        function simulateCpuUsage() {
+            if (!isRunning) return;
+            
+            // Simular uso da CPU baseado no número de threads e intensidade
+            const threadCount = parseInt(threadsSlider.value);
+            const intensity = parseInt(intensitySlider.value);
+            const baseUsage = (threadCount / 16) * 0.7; // 70% do uso máximo baseado em threads
+            const intensityFactor = intensity / 10; // Fator de intensidade (0.1 a 1.0)
+            
+            // Adicionar variação aleatória para simular flutuações reais
+            const variation = Math.random() * 0.2 - 0.1; // -10% a +10%
+            let usage = Math.min(0.99, baseUsage * intensityFactor + variation);
+            usage = Math.max(0.05, usage); // Mínimo de 5%
+            
+            // Converter para percentual
+            const usagePercent = Math.round(usage * 100);
+            
+            // Atualizar UI
+            cpuUsage.textContent = `${usagePercent}%`;
+            cpuBar.style.width = `${usagePercent}%`;
+            
+            // Adicionar ao histórico
+            usageHistory.push(usagePercent);
+            if (usageHistory.length > maxGraphBars) {
+                usageHistory.shift();
+            }
+            
+            // Atualizar gráfico
+            updatePerformanceGraph();
+            
+            // Continuar simulação
+            setTimeout(simulateCpuUsage, 1000);
+        }
+
+        // Função para atualizar o gráfico de desempenho
+        function updatePerformanceGraph() {
+            // Limpar gráfico
+            performanceGraph.innerHTML = '';
+            
+            // Adicionar barras para cada ponto de dados
+            usageHistory.forEach(usage => {
+                const bar = document.createElement('div');
+                bar.className = 'bg-blue-500 rounded-t-sm transition-all duration-300';
+                bar.style.height = `${usage}%`;
+                bar.style.width = `${100 / maxGraphBars}%`;
+                performanceGraph.appendChild(bar);
+            });
+        }
+
+        // Função para calcular resultados finais
+        function calculateResults() {
+            if (usageHistory.length === 0) return;
+            
+            // Calcular média de uso
+            const sum = usageHistory.reduce((a, b) => a + b, 0);
+            const average = Math.round(sum / usageHistory.length);
+            
+            // Calcular estabilidade (desvio padrão simplificado)
+            const squareDiffs = usageHistory.map(value => {
+                const diff = value - average;
+                return diff * diff;
+            });
+            const avgSquareDiff = squareDiffs.reduce((a, b) => a + b, 0) / squareDiffs.length;
+            const stdDev = Math.sqrt(avgSquareDiff);
+            const stabilityScore = Math.max(0, 100 - Math.round(stdDev * 5));
+            
+            // Calcular pontuação
+            const threadCount = parseInt(threadsSlider.value);
+            const intensity = parseInt(intensitySlider.value);
+            const performanceScore = Math.round(average * threadCount * (intensity / 5));
+            
+            // Atualizar UI
+            score.textContent = performanceScore;
+            avgUsage.textContent = `${average}%`;
+            stability.textContent = `${stabilityScore}%`;
+        }
+
+        // Função para resetar resultados
+        function resetResults() {
+            usageHistory = [];
+            performanceGraph.innerHTML = '';
+            cpuUsage.textContent = '0%';
+            cpuBar.style.width = '0%';
+            activeThreads.textContent = '0';
+            threadsBar.style.width = '0%';
+            remainingTime.textContent = '00:00';
+            timeBar.style.width = '0%';
+            score.textContent = '-';
+            avgUsage.textContent = '-';
+            stability.textContent = '-';
+        }
+
+        // Função para criar um Blob para o Worker
+        function createWorkerBlob(intensity) {
+            const workload = intensity * 10000; // Ajustar carga de trabalho baseado na intensidade
+            
+            const workerCode = `
+                function calculatePrimes(iterations) {
+                    let primes = [];
+                    for (let i = 0; i < iterations; i++) {
+                        let candidate = i * (i % 10);
+                        let isPrime = true;
+                        for (let c = 2; c <= Math.sqrt(candidate); ++c) {
+                            if (candidate % c === 0) {
+                                isPrime = false;
+                                break;
+                            }
+                        }
+                        if (candidate > 1 && isPrime) {
+                            primes.push(candidate);
+                        }
+                    }
+                    return primes.length;
+                }
+                
+                function runWorkload() {
+                    calculatePrimes(${workload});
+                    setTimeout(runWorkload, 0);
+                }
+                
+                runWorkload();
+            `;
+            
+            const blob = new Blob([workerCode], { type: 'application/javascript' });
+            return URL.createObjectURL(blob);
+        }
+
+        // Detectar informações do sistema
+        function detectSystemInfo() {
+            const cores = navigator.hardwareConcurrency || 'Desconhecido';
+            const platform = navigator.platform || 'Desconhecido';
+            const userAgent = navigator.userAgent;
+            
+            let browserInfo = 'Navegador desconhecido';
+            if (userAgent.indexOf('Firefox') !== -1) {
+                browserInfo = 'Firefox';
+            } else if (userAgent.indexOf('Chrome') !== -1) {
+                browserInfo = 'Chrome';
+            } else if (userAgent.indexOf('Safari') !== -1) {
+                browserInfo = 'Safari';
+            } else if (userAgent.indexOf('Edge') !== -1) {
+                browserInfo = 'Edge';
+            }
+            
+            systemInfo.textContent = `Sistema: ${platform} | Núcleos lógicos: ${cores} | Navegador: ${browserInfo}`;
+        }
+
+        // Inicializar
+        window.addEventListener('load', () => {
+            detectSystemInfo();
+            resetResults();
+        });
+    </script>
+</body>
+</html>
