@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Sensor de Proximidade - Tecnico Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        dark: '#0f172a',
+                        light: '#f8fafc'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen text-white">
+    <!-- Header -->
+    <header class="bg-black/20 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-satellite-dish text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                            Tecnico Online
+                        </h1>
+                        <p class="text-sm text-gray-400">Teste de Sensor de Proximidade</p>
+                    </div>
+                </div>
+                <a href="index.html" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2">
+                    <i class="fas fa-home"></i>
+                    <span>Início</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Panel -->
+    <nav class="bg-black/20 backdrop-blur-md border-b border-white/10">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center space-x-2 text-sm">
+                <a href="index.html" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-home mr-1"></i>Início
+                </a>
+                <i class="fas fa-chevron-right text-gray-600 text-xs"></i>
+                <span class="text-blue-400">
+                    <i class="fas fa-satellite-dish mr-1"></i>Sensor de Proximidade
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Sensor Status -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div class="lg:col-span-2">
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold flex items-center">
+                            <i class="fas fa-satellite-dish text-blue-400 mr-3"></i>
+                            Status do Sensor
+                        </h2>
+                        <div id="sensorStatus" class="px-3 py-1 rounded-full text-sm bg-gray-500/20 text-gray-400">
+                            <i class="fas fa-circle mr-1"></i>
+                            Verificando...
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-black/20 rounded-xl p-4">
+                            <div class="text-sm text-gray-400 mb-1">Suporte do Navegador</div>
+                            <div id="browserSupport" class="text-lg font-semibold">
+                                <i class="fas fa-spinner fa-spin mr-2"></i>Verificando...
+                            </div>
+                        </div>
+                        <div class="bg-black/20 rounded-xl p-4">
+                            <div class="text-sm text-gray-400 mb-1">Permissão</div>
+                            <div id="permission" class="text-lg font-semibold">
+                                <i class="fas fa-spinner fa-spin mr-2"></i>Verificando...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                    <i class="fas fa-info-circle text-blue-400 mr-2"></i>
+                    Informações
+                </h3>
+                <div class="space-y-3 text-sm">
+                    <div class="flex items-start space-x-2">
+                        <i class="fas fa-check text-green-400 mt-1"></i>
+                        <span class="text-gray-300">Detecta objetos próximos</span>
+                    </div>
+                    <div class="flex items-start space-x-2">
+                        <i class="fas fa-check text-green-400 mt-1"></i>
+                        <span class="text-gray-300">Economiza bateria</span>
+                    </div>
+                    <div class="flex items-start space-x-2">
+                        <i class="fas fa-check text-green-400 mt-1"></i>
+                        <span class="text-gray-300">Controla tela automaticamente</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proximity Detection -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                <h3 class="text-xl font-semibold mb-6 flex items-center">
+                    <i class="fas fa-radar text-purple-400 mr-3"></i>
+                    Detecção de Proximidade
+                </h3>
+                
+                <div class="text-center mb-6">
+                    <div id="proximityIndicator" class="w-32 h-32 mx-auto rounded-full border-4 border-gray-600 flex items-center justify-center mb-4 transition-all duration-300">
+                        <i class="fas fa-hand-paper text-4xl text-gray-500"></i>
+                    </div>
+                    <div id="proximityStatus" class="text-lg font-semibold text-gray-400">
+                        Aguardando detecção...
+                    </div>
+                    <div id="proximityDistance" class="text-sm text-gray-500 mt-2">
+                        Distância: --
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <button id="startTest" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-play mr-2"></i>
+                        Iniciar Teste
+                    </button>
+                    <button id="stopTest" class="w-full bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 opacity-50 cursor-not-allowed" disabled>
+                        <i class="fas fa-stop mr-2"></i>
+                        Parar Teste
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                <h3 class="text-xl font-semibold mb-6 flex items-center">
+                    <i class="fas fa-chart-line text-green-400 mr-3"></i>
+                    Histórico de Eventos
+                </h3>
+                
+                <div id="eventHistory" class="space-y-2 max-h-64 overflow-y-auto">
+                    <div class="text-center text-gray-500 py-8">
+                        <i class="fas fa-history text-2xl mb-2"></i>
+                        <p>Nenhum evento registrado ainda</p>
+                    </div>
+                </div>
+                
+                <button id="clearHistory" class="w-full mt-4 bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg transition-all duration-300">
+                    <i class="fas fa-trash mr-2"></i>
+                    Limpar Histórico
+                </button>
+            </div>
+        </div>
+
+        <!-- Test Results -->
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 mb-8">
+            <h3 class="text-xl font-semibold mb-6 flex items-center">
+                <i class="fas fa-clipboard-check text-yellow-400 mr-3"></i>
+                Resultados do Teste
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-black/20 rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold text-blue-400" id="totalEvents">0</div>
+                    <div class="text-sm text-gray-400">Total de Eventos</div>
+                </div>
+                <div class="bg-black/20 rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold text-green-400" id="nearEvents">0</div>
+                    <div class="text-sm text-gray-400">Proximidade Detectada</div>
+                </div>
+                <div class="bg-black/20 rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold text-purple-400" id="farEvents">0</div>
+                    <div class="text-sm text-gray-400">Objeto Afastado</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                <i class="fas fa-lightbulb text-yellow-400 mr-3"></i>
+                Como Usar
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h4 class="font-semibold text-blue-400 mb-3">Instruções:</h4>
+                    <ol class="space-y-2 text-sm text-gray-300">
+                        <li class="flex items-start">
+                            <span class="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs mr-3 mt-0.5">1</span>
+                            Clique em "Iniciar Teste" para ativar o sensor
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs mr-3 mt-0.5">2</span>
+                            Aproxime e afaste objetos do sensor (geralmente no topo do dispositivo)
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs mr-3 mt-0.5">3</span>
+                            Observe as mudanças no indicador visual
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs mr-3 mt-0.5">4</span>
+                            Verifique o histórico de eventos detectados
+                        </li>
+                    </ol>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-green-400 mb-3">Dicas:</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
+                            Use a mão ou um objeto próximo ao sensor
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
+                            O sensor geralmente fica próximo à câmera frontal
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
+                            Funciona melhor em dispositivos móveis
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
+                            Pode não estar disponível em todos os dispositivos
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black/20 backdrop-blur-md border-t border-white/10 mt-12">
+        <div class="container mx-auto px-4 py-6">
+            <div class="text-center text-gray-400">
+                <p>&copy; 2024 Tecnico Online. Teste de Sensor de Proximidade.</p>
+                <p class="text-sm mt-2">Desenvolvido para testar a funcionalidade do sensor de proximidade do seu dispositivo.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="common.js"></script>
+    <script>
+        // Proximity sensor specific functionality
+        let proximityTestActive = false;
+        let eventCount = 0;
+        let nearCount = 0;
+        let farCount = 0;
+
+        // Initialize proximity sensor test
+        function initProximityTest() {
+            checkProximitySupport();
+            setupEventListeners();
+        }
+
+        // Check if proximity sensor is supported
+        function checkProximitySupport() {
+            const browserSupport = document.getElementById('browserSupport');
+            const permission = document.getElementById('permission');
+            const sensorStatus = document.getElementById('sensorStatus');
+
+            if ('ProximitySensor' in window) {
+                browserSupport.innerHTML = '<i class="fas fa-check text-green-400 mr-2"></i>Suportado';
+                permission.innerHTML = '<i class="fas fa-check text-green-400 mr-2"></i>Disponível';
+                sensorStatus.innerHTML = '<i class="fas fa-circle text-green-400 mr-1"></i>Pronto';
+                sensorStatus.className = 'px-3 py-1 rounded-full text-sm bg-green-500/20 text-green-400';
+            } else if ('ondeviceproximity' in window) {
+                browserSupport.innerHTML = '<i class="fas fa-check text-yellow-400 mr-2"></i>Parcial';
+                permission.innerHTML = '<i class="fas fa-check text-yellow-400 mr-2"></i>Disponível';
+                sensorStatus.innerHTML = '<i class="fas fa-circle text-yellow-400 mr-1"></i>Limitado';
+                sensorStatus.className = 'px-3 py-1 rounded-full text-sm bg-yellow-500/20 text-yellow-400';
+            } else {
+                browserSupport.innerHTML = '<i class="fas fa-times text-red-400 mr-2"></i>Não Suportado';
+                permission.innerHTML = '<i class="fas fa-times text-red-400 mr-2"></i>Indisponível';
+                sensorStatus.innerHTML = '<i class="fas fa-circle text-red-400 mr-1"></i>Não Disponível';
+                sensorStatus.className = 'px-3 py-1 rounded-full text-sm bg-red-500/20 text-red-400';
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            document.getElementById('startTest').addEventListener('click', startProximityTest);
+            document.getElementById('stopTest').addEventListener('click', stopProximityTest);
+            document.getElementById('clearHistory').addEventListener('click', clearEventHistory);
+        }
+
+        // Start proximity test
+        function startProximityTest() {
+            if (proximityTestActive) return;
+
+            proximityTestActive = true;
+            document.getElementById('startTest').disabled = true;
+            document.getElementById('startTest').classList.add('opacity-50', 'cursor-not-allowed');
+            document.getElementById('stopTest').disabled = false;
+            document.getElementById('stopTest').classList.remove('opacity-50', 'cursor-not-allowed');
+
+            // Try modern Proximity Sensor API
+            if ('ProximitySensor' in window) {
+                try {
+                    const sensor = new ProximitySensor();
+                    sensor.addEventListener('reading', handleProximityReading);
+                    sensor.start();
+                    addEventToHistory('Sensor moderno iniciado', 'info');
+                } catch (error) {
+                    addEventToHistory('Erro ao iniciar sensor moderno: ' + error.message, 'error');
+                    tryLegacyProximity();
+                }
+            } else {
+                tryLegacyProximity();
+            }
+        }
+
+        // Try legacy proximity events
+        function tryLegacyProximity() {
+            if ('ondeviceproximity' in window) {
+                window.addEventListener('deviceproximity', handleLegacyProximity);
+                window.addEventListener('userproximity', handleUserProximity);
+                addEventToHistory('Sensor legado iniciado', 'info');
+            } else {
+                // Simulate proximity for demonstration
+                simulateProximityEvents();
+                addEventToHistory('Modo simulação iniciado (sensor não disponível)', 'warning');
+            }
+        }
+
+        // Handle modern proximity sensor reading
+        function handleProximityReading(event) {
+            const distance = event.target.distance;
+            const near = distance < 5; // Consider near if less than 5cm
+            
+            updateProximityIndicator(near, distance);
+            addEventToHistory(`Distância: ${distance}cm - ${near ? 'Próximo' : 'Distante'}`, near ? 'near' : 'far');
+            updateEventCounts(near);
+        }
+
+        // Handle legacy device proximity
+        function handleLegacyProximity(event) {
+            const distance = event.value;
+            const near = distance < event.max * 0.1; // Consider near if less than 10% of max distance
+            
+            updateProximityIndicator(near, distance);
+            addEventToHistory(`Distância: ${distance}cm - ${near ? 'Próximo' : 'Distante'}`, near ? 'near' : 'far');
+            updateEventCounts(near);
+        }
+
+        // Handle user proximity (boolean)
+        function handleUserProximity(event) {
+            const near = event.near;
+            
+            updateProximityIndicator(near, near ? 'Próximo' : 'Distante');
+            addEventToHistory(`Usuário ${near ? 'próximo' : 'distante'}`, near ? 'near' : 'far');
+            updateEventCounts(near);
+        }
+
+        // Simulate proximity events for demonstration
+        function simulateProximityEvents() {
+            const simulationInterval = setInterval(() => {
+                if (!proximityTestActive) {
+                    clearInterval(simulationInterval);
+                    return;
+                }
+
+                const near = Math.random() > 0.7; // 30% chance of being near
+                const distance = near ? Math.random() * 5 : Math.random() * 50 + 5;
+                
+                updateProximityIndicator(near, distance);
+                addEventToHistory(`Simulação: ${distance.toFixed(1)}cm - ${near ? 'Próximo' : 'Distante'}`, near ? 'near' : 'far');
+                updateEventCounts(near);
+            }, 2000);
+        }
+
+        // Update proximity indicator
+        function updateProximityIndicator(near, distance) {
+            const indicator = document.getElementById('proximityIndicator');
+            const status = document.getElementById('proximityStatus');
+            const distanceElement = document.getElementById('proximityDistance');
+
+            if (near) {
+                indicator.className = 'w-32 h-32 mx-auto rounded-full border-4 border-red-400 bg-red-500/20 flex items-center justify-center mb-4 transition-all duration-300 animate-pulse';
+                indicator.innerHTML = '<i class="fas fa-hand-paper text-4xl text-red-400"></i>';
+                status.textContent = 'Objeto Próximo Detectado!';
+                status.className = 'text-lg font-semibold text-red-400';
+            } else {
+                indicator.className = 'w-32 h-32 mx-auto rounded-full border-4 border-green-400 bg-green-500/20 flex items-center justify-center mb-4 transition-all duration-300';
+                indicator.innerHTML = '<i class="fas fa-hand-paper text-4xl text-green-400"></i>';
+                status.textContent = 'Nenhum Objeto Próximo';
+                status.className = 'text-lg font-semibold text-green-400';
+            }
+
+            if (typeof distance === 'number') {
+                distanceElement.textContent = `Distância: ${distance.toFixed(1)}cm`;
+            } else {
+                distanceElement.textContent = `Status: ${distance}`;
+            }
+        }
+
+        // Add event to history
+        function addEventToHistory(message, type) {
+            const history = document.getElementById('eventHistory');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            // Remove "no events" message if it exists
+            if (history.children.length === 1 && history.children[0].classList.contains('text-center')) {
+                history.innerHTML = '';
+            }
+
+            const eventElement = document.createElement('div');
+            eventElement.className = 'flex items-center justify-between p-3 rounded-lg bg-black/20 border border-white/10';
+            
+            let iconClass = 'fas fa-info-circle text-blue-400';
+            if (type === 'near') iconClass = 'fas fa-exclamation-triangle text-red-400';
+            else if (type === 'far') iconClass = 'fas fa-check-circle text-green-400';
+            else if (type === 'error') iconClass = 'fas fa-times-circle text-red-400';
+            else if (type === 'warning') iconClass = 'fas fa-exclamation-triangle text-yellow-400';
+
+            eventElement.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <i class="${iconClass}"></i>
+                    <span class="text-sm">${message}</span>
+                </div>
+                <span class="text-xs text-gray-500">${timestamp}</span>
+            `;
+
+            history.insertBefore(eventElement, history.firstChild);
+
+            // Keep only last 20 events
+            while (history.children.length > 20) {
+                history.removeChild(history.lastChild);
+            }
+        }
+
+        // Update event counts
+        function updateEventCounts(near) {
+            eventCount++;
+            if (near) nearCount++;
+            else farCount++;
+
+            document.getElementById('totalEvents').textContent = eventCount;
+            document.getElementById('nearEvents').textContent = nearCount;
+            document.getElementById('farEvents').textContent = farCount;
+        }
+
+        // Stop proximity test
+        function stopProximityTest() {
+            proximityTestActive = false;
+            
+            document.getElementById('startTest').disabled = false;
+            document.getElementById('startTest').classList.remove('opacity-50', 'cursor-not-allowed');
+            document.getElementById('stopTest').disabled = true;
+            document.getElementById('stopTest').classList.add('opacity-50', 'cursor-not-allowed');
+
+            // Remove event listeners
+            window.removeEventListener('deviceproximity', handleLegacyProximity);
+            window.removeEventListener('userproximity', handleUserProximity);
+
+            // Reset indicator
+            const indicator = document.getElementById('proximityIndicator');
+            const status = document.getElementById('proximityStatus');
+            const distanceElement = document.getElementById('proximityDistance');
+
+            indicator.className = 'w-32 h-32 mx-auto rounded-full border-4 border-gray-600 flex items-center justify-center mb-4 transition-all duration-300';
+            indicator.innerHTML = '<i class="fas fa-hand-paper text-4xl text-gray-500"></i>';
+            status.textContent = 'Teste Parado';
+            status.className = 'text-lg font-semibold text-gray-400';
+            distanceElement.textContent = 'Distância: --';
+
+            addEventToHistory('Teste de proximidade parado', 'info');
+        }
+
+        // Clear event history
+        function clearEventHistory() {
+            const history = document.getElementById('eventHistory');
+            history.innerHTML = `
+                <div class="text-center text-gray-500 py-8">
+                    <i class="fas fa-history text-2xl mb-2"></i>
+                    <p>Nenhum evento registrado ainda</p>
+                </div>
+            `;
+            
+            // Reset counters
+            eventCount = 0;
+            nearCount = 0;
+            farCount = 0;
+            
+            document.getElementById('totalEvents').textContent = '0';
+            document.getElementById('nearEvents').textContent = '0';
+            document.getElementById('farEvents').textContent = '0';
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initProximityTest);
+    </script>
+</body>
+</html>
