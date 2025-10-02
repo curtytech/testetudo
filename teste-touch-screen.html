@@ -29,12 +29,18 @@
         }
     </script>
     <style>
+        html, body {
+            height: 100%;
+        }
         body {
-            overscroll-behavior: none;
-            touch-action: none;
+            /* Permitir rolagem vertical em dispositivos móveis */
+            touch-action: pan-y;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         #touch-area {
-            touch-action: none;
+            /* Permitir rolagem vertical dentro da área de toque */
+            touch-action: pan-y;
         }
         .touch-point {
             position: absolute;
@@ -615,7 +621,6 @@
 
         // Event Listeners para área de toque
         touchArea.addEventListener('touchstart', function(e) {
-            e.preventDefault();
             touchCount = e.touches.length;
             touchCountElement.textContent = touchCount;
             
@@ -637,7 +642,6 @@
         });
 
         touchArea.addEventListener('touchmove', function(e) {
-            e.preventDefault();
             
             // Atualizar posições dos pontos
             const rect = touchArea.getBoundingClientRect();
@@ -656,7 +660,6 @@
         });
 
         touchArea.addEventListener('touchend', function(e) {
-            e.preventDefault();
             touchCount = e.touches.length;
             touchCountElement.textContent = touchCount;
             
