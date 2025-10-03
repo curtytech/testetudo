@@ -102,7 +102,7 @@
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #f1f5f9;
+            background: #06182b;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb {
@@ -115,26 +115,9 @@
     </style>
 </head>
 <body class="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 min-h-screen">
-    <!-- Header -->
-    <header class="bg-gradient-to-r from-tech-blue via-tech-purple to-tech-cyan shadow-lg">
-        <div class="container mx-auto px-4 py-6">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <div class="bg-white/20 backdrop-blur-sm rounded-full p-3 animate-glow">
-                        <i class="fas fa-tachometer-alt text-2xl text-white"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-3xl font-bold text-white">Teste de Velocidade</h1>
-                        <p class="text-blue-100">Meça a velocidade da sua conexão</p>
-                    </div>
-                </div>
-                <div class="hidden md:flex items-center space-x-2 text-white/80">
-                    <i class="fas fa-wifi text-lg animate-pulse"></i>
-                    <span class="text-sm">Tecnico Online</span>
-                </div>
-            </div>
-        </div>
-    </header>
+<!-- <body class="bg-gradient-to-br from-dark via-slate-900 to-dark-light text-white min-h-screen"> -->
+
+    <site-header></site-header>
 
     <div class="container mx-auto px-4 py-8">
         <!-- Painel de Navegação -->
@@ -312,34 +295,7 @@
             </div>
         </div>
         
-        <!-- Footer -->
-        <footer class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 card-hover border border-white/20">
-            <div class="text-center">
-                <div class="flex items-center justify-center mb-4">
-                    <div class="bg-gradient-to-r from-tech-blue to-tech-purple rounded-full p-3 mr-3 animate-pulse">
-                        <i class="fas fa-code text-white text-lg"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-800">Tecnico Online</h3>
-                        <p class="text-sm text-gray-600">Ferramentas de teste profissionais</p>
-                    </div>
-                </div>
-                <div class="flex justify-center space-x-6 text-sm text-gray-500">
-                    <div class="flex items-center">
-                        <i class="fas fa-tachometer-alt mr-2 text-tech-blue"></i>
-                        <span>Teste de Velocidade</span>
-                    </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-shield-alt mr-2 text-tech-green"></i>
-                        <span>Seguro e Confiável</span>
-                    </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-mobile-alt mr-2 text-tech-purple"></i>
-                        <span>Responsivo</span>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <site-footer></site-footer>
     </div>
 
     <script>
@@ -692,6 +648,7 @@
             initChart();
             loadHistory();
         });
-    </script>
+</script>
+    <script src="/components.js"></script>
 </body>
 </html>

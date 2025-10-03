@@ -36,20 +36,7 @@
         <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.1),transparent_50%)]"></div>
     </div>
 
-    <!-- Header -->
-    <header class="relative z-10 w-full text-center py-12 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="animate-fade-in">
-                <h1 class="text-6xl md:text-7xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent mb-4 animate-glow">
-                    Teste Tudo
-                </h1>
-                <p class="text-xl md:text-2xl text-gray-300 font-light mb-2">
-                    Ferramentas profissionais para diagnóstico de hardware
-                </p>
-                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
-            </div>
-        </div>
-    </header>
+    <site-header></site-header>
 
     <!-- Main Content -->
     <main class="relative z-10 w-full max-w-7xl mx-auto px-4 pb-16">
@@ -192,22 +179,7 @@
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="relative z-10 mt-16 py-8 border-t border-gray-800">
-        <div class="max-w-6xl mx-auto px-4 text-center">
-            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8">
-                <p class="text-gray-400">
-                    Desenvolvido por 
-                   <a href="https://phelipecurty.vercel.app" target="_blank" class="text-primary font-semibold transition-colors duration-300 hover:text-secondary">Phelipe Curty</a>
-                </p>
-                <div class="flex space-x-2">
-                    <div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                    <div class="w-2 h-2 bg-accent rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
-                    <div class="w-2 h-2 bg-success rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <site-footer></site-footer>
 
     <style>
         @keyframes fadeIn {
@@ -268,5 +240,6 @@
     </style>
 
     <script src="script.js"></script>
+    <script src="/components.js"></script>
 </body>
 </html>

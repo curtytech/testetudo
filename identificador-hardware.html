@@ -47,19 +47,7 @@
         <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.1),transparent_50%)]"></div>
     </div>
 
-    <header class="relative z-10 w-full text-center py-8 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="animate-fade-in">
-                <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent mb-4 animate-glow">
-                    Identificador de Hardware
-                </h1>
-                <p class="text-lg md:text-xl text-gray-300 font-light mb-4">
-                    Identifique capacidades do hardware e do navegador do dispositivo
-                </p>
-                <div class="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
-            </div>
-        </div>
-    </header>
+    <site-header></site-header>
 
     <nav class="relative z-10 max-w-6xl mx-auto px-4 mb-8">
         <div class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm">
@@ -184,21 +172,7 @@
         </section>
     </main>
 
-    <footer class="relative z-10 mt-16 py-8 border-t border-gray-800">
-        <div class="max-w-6xl mx-auto px-4 text-center">
-            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8">
-                <p class="text-gray-400">
-                    Desenvolvido com <i class="fas fa-heart text-red-500 animate-pulse"></i> por 
-                    <span class="font-semibold text-primary">Phelipe Curty</span>
-                </p>
-                <div class="flex space-x-4">
-                    <div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                    <div class="w-2 h-2 bg-accent rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
-                    <div class="w-2 h-2 bg-success rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <site-footer></site-footer>
 
     <script>
         function getOSName(ua) {
@@ -324,5 +298,6 @@
         });
     </script>
     <script src="common.js"></script>
+    <script src="/components.js"></script>
 </body>
 </html>
