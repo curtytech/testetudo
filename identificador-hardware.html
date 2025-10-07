@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -29,28 +30,91 @@
         }
     </script>
     <style>
-        html, body { height: 100%; }
-        body { touch-action: pan-y; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(40px);} to { opacity: 1; transform: translateY(0);} }
-        @keyframes float { 0%, 100% { transform: translateY(0px);} 50% { transform: translateY(-10px);} }
-        @keyframes glow { from { text-shadow: 0 0 20px rgba(59,130,246,0.5);} to { text-shadow: 0 0 30px rgba(139,92,246,0.8);} }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1e293b; }
-        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #1e40af; }
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            touch-action: pan-y;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            }
+
+            to {
+                text-shadow: 0 0 30px rgba(139, 92, 246, 0.8);
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1e40af;
+        }
     </style>
 </head>
+
 <body class="bg-gradient-to-br from-dark via-slate-900 to-dark-light text-white min-h-screen">
-    <div class="fixed inset-0 opacity-10">
-        <div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20"></div>
-        <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.1),transparent_50%)]"></div>
-    </div>
+
+    <site-header></site-header>
 
     <header class="relative z-10 w-full text-center py-8 px-4">
         <div class="max-w-6xl mx-auto">
             <div class="animate-fade-in">
-                <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent mb-4 animate-glow">
+                <h1
+                    class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent mb-4 animate-glow">
                     Identificador de Hardware
                 </h1>
                 <p class="text-lg md:text-xl text-gray-300 font-light mb-4">
@@ -61,38 +125,30 @@
         </div>
     </header>
 
-    <nav class="relative z-10 max-w-6xl mx-auto px-4 mb-8">
-        <div class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm">
-            <div class="flex flex-wrap gap-3 justify-center">
-                <a href="index.html" class="px-4 py-2 bg-gray-800/60 hover:bg-gray-700 rounded-lg border border-gray-700 text-gray-300 transition-all">
-                    <i class="fas fa-home mr-2"></i> Início
-                </a>
-                <span class="px-4 py-2 bg-primary/20 rounded-lg border border-primary/30 text-primary">
-                    <i class="fas fa-info-circle mr-2"></i> Identificador de Hardware
-                </span>
-            </div>
-        </div>
-    </nav>
-
     <main class="relative z-10 max-w-6xl mx-auto px-4 pb-16">
-        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 mb-8">
+        <div
+            class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 mb-8">
             <h3 class="text-lg font-semibold mb-3 flex items-center">
                 <i class="fas fa-info-circle text-blue-400 mr-2"></i>
                 Limitações de Identificação de Hardware
             </h3>
             <p class="text-sm text-gray-300">
-                Algumas informações de hardware podem não aparecer devido às limitações do navegador. 
-                Isso ajuda a proteger sua privacidade e evita a identificação completa do dispositivo. 
+                Algumas informações de hardware podem não aparecer devido às limitações do navegador.
+                Isso ajuda a proteger sua privacidade e evita a identificação completa do dispositivo.
                 Quando um recurso não é suportado, mostramos "Indisponível".
             </p>
         </div>
         <section class="mb-8 animate-slide-up">
-            <div class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm">
+            <div
+                class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm">
                 <div class="flex items-center space-x-3 mb-6">
-                    <div class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center">
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center">
                         <i class="fas fa-microchip text-xl text-white"></i>
                     </div>
-                    <h2 class="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Resumo do Dispositivo</h2>
+                    <h2
+                        class="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                        Resumo do Dispositivo</h2>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-4 border border-gray-600">
@@ -108,22 +164,28 @@
         </section>
 
         <section class="mb-8 animate-slide-up">
-            <div class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm">
+            <div
+                class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm">
                 <div class="flex items-center justify-between mb-6">
                     <div class="flex items-center space-x-3">
-                        <div class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center">
+                        <div
+                            class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center">
                             <i class="fas fa-laptop-code text-xl text-white"></i>
                         </div>
-                        <h2 class="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Capacidades de Hardware</h2>
+                        <h2
+                            class="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                            Capacidades de Hardware</h2>
                     </div>
-                    <button id="refresh-btn" class="px-4 py-2 bg-gradient-to-r from-primary to-accent rounded-lg hover:scale-105 transition-all">
+                    <button id="refresh-btn"
+                        class="px-4 py-2 bg-gradient-to-r from-primary to-accent rounded-lg hover:scale-105 transition-all">
                         <i class="fas fa-rotate mr-2"></i>Atualizar
                     </button>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-4 border border-gray-600">
-                        <h3 class="text-lg font-semibold mb-2 text-white flex items-center"><i class="fas fa-microchip text-primary mr-2"></i>CPU</h3>
+                        <h3 class="text-lg font-semibold mb-2 text-white flex items-center"><i
+                                class="fas fa-microchip text-primary mr-2"></i>CPU</h3>
                         <p class="text-gray-400 text-sm mb-1">Núcleos</p>
                         <p id="cpu-cores" class="text-white">-</p>
                         <p class="text-gray-400 text-sm mb-1 mt-3">Arquitetura (aprox.)</p>
@@ -131,7 +193,8 @@
                     </div>
 
                     <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-4 border border-gray-600">
-                        <h3 class="text-lg font-semibold mb-2 text-white flex items-center"><i class="fas fa-video text-primary mr-2"></i>GPU</h3>
+                        <h3 class="text-lg font-semibold mb-2 text-white flex items-center"><i
+                                class="fas fa-video text-primary mr-2"></i>GPU</h3>
                         <p class="text-gray-400 text-sm mb-1">Renderer</p>
                         <p id="gpu-renderer" class="text-white">-</p>
                         <p class="text-gray-400 text-sm mb-1 mt-3">Vendor</p>
@@ -139,13 +202,15 @@
                     </div>
 
                     <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-4 border border-gray-600">
-                        <h3 class="text-lg font-semibold mb-2 text-white flex items-center"><i class="fas fa-memory text-primary mr-2"></i>Memória</h3>
+                        <h3 class="text-lg font-semibold mb-2 text-white flex items-center"><i
+                                class="fas fa-memory text-primary mr-2"></i>Memória</h3>
                         <p class="text-gray-400 text-sm mb-1">RAM (estimada)</p>
                         <p id="ram-size" class="text-white">-</p>
                     </div>
 
                     <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-4 border border-gray-600">
-                        <h3 class="text-lg font-semibold mb-2 text-white flex items-center"><i class="fas fa-battery-half text-primary mr-2"></i>Bateria</h3>
+                        <h3 class="text-lg font-semibold mb-2 text-white flex items-center"><i
+                                class="fas fa-battery-half text-primary mr-2"></i>Bateria</h3>
                         <p class="text-gray-400 text-sm mb-1">Nível</p>
                         <p id="battery-level" class="text-white">-</p>
                         <p class="text-gray-400 text-sm mb-1 mt-3">Carregando</p>
@@ -153,7 +218,8 @@
                     </div>
 
                     <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-4 border border-gray-600">
-                        <h3 class="text-lg font-semibold mb-2 text-white flex items-center"><i class="fas fa-wifi text-primary mr-2"></i>Rede</h3>
+                        <h3 class="text-lg font-semibold mb-2 text-white flex items-center"><i
+                                class="fas fa-wifi text-primary mr-2"></i>Rede</h3>
                         <p class="text-gray-400 text-sm mb-1">Tipo</p>
                         <p id="net-type" class="text-white">-</p>
                         <p class="text-gray-400 text-sm mb-1 mt-3">Velocidade (downlink)</p>
@@ -163,7 +229,8 @@
                     </div>
 
                     <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-4 border border-gray-600">
-                        <h3 class="text-lg font-semibold mb-2 text-white flex items-center"><i class="fas fa-hdd text-primary mr-2"></i>Armazenamento</h3>
+                        <h3 class="text-lg font-semibold mb-2 text-white flex items-center"><i
+                                class="fas fa-hdd text-primary mr-2"></i>Armazenamento</h3>
                         <p class="text-gray-400 text-sm mb-1">Uso</p>
                         <p id="storage-usage" class="text-white">-</p>
                         <p class="text-gray-400 text-sm mb-1 mt-3">Cota</p>
@@ -171,7 +238,8 @@
                     </div>
 
                     <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-4 border border-gray-600">
-                        <h3 class="text-lg font-semibold mb-2 text-white flex items-center"><i class="fas fa-camera text-primary mr-2"></i>Dispositivos de Mídia</h3>
+                        <h3 class="text-lg font-semibold mb-2 text-white flex items-center"><i
+                                class="fas fa-camera text-primary mr-2"></i>Dispositivos de Mídia</h3>
                         <p class="text-gray-400 text-sm mb-1">Câmeras</p>
                         <p id="media-cameras" class="text-white">-</p>
                         <p class="text-gray-400 text-sm mb-1 mt-3">Microfones</p>
@@ -184,21 +252,7 @@
         </section>
     </main>
 
-    <footer class="relative z-10 mt-16 py-8 border-t border-gray-800">
-        <div class="max-w-6xl mx-auto px-4 text-center">
-            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8">
-                <p class="text-gray-400">
-                    Desenvolvido com <i class="fas fa-heart text-red-500 animate-pulse"></i> por 
-                    <span class="font-semibold text-primary">Phelipe Curty</span>
-                </p>
-                <div class="flex space-x-4">
-                    <div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                    <div class="w-2 h-2 bg-accent rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
-                    <div class="w-2 h-2 bg-success rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <site-footer></site-footer>
 
     <script>
         function getOSName(ua) {
@@ -281,7 +335,7 @@
             }
 
             if (navigator.storage && navigator.storage.estimate) {
-                navigator.storage.estimate().then(({usage, quota}) => {
+                navigator.storage.estimate().then(({ usage, quota }) => {
                     const usageGB = usage ? (usage / (1024 ** 3)).toFixed(2) : '0';
                     const quotaGB = quota ? (quota / (1024 ** 3)).toFixed(2) : 'Indisponível';
                     document.getElementById('storage-usage').textContent = `${usageGB} GB`;
@@ -323,6 +377,7 @@
             });
         });
     </script>
-    <script src="common.js"></script>
+    <script src="js/components.js"></script>
 </body>
+
 </html>

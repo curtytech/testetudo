@@ -7,7 +7,6 @@
     <title>Teste Tudo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
 
     <script>
@@ -35,28 +34,14 @@
 </head>
 
 <body class="bg-gradient-to-br from-dark via-slate-900 to-dark-light text-white min-h-screen">
-    <!-- Background Pattern -->
-    <div class="fixed inset-0 opacity-10">
-        <div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20"></div>
-        <div
-            class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.1),transparent_50%)]">
-        </div>
-    </div>
 
-    <header class="relative z-10 w-full text-center py-12 px-4">
-        <div class="max-w-6xl mx-auto">
-            <h1
-                class="text-6xl md:text-7xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent mb-4">
-                Teste Tudo
-            </h1>
-            <p class="text-xl md:text-2xl text-gray-300">Ferramentas profissionais para diagnóstico de hardware</p>
-        </div>
-    </header>
+    <site-container-title title="Teste Tudo"
+        description="Ferramentas profissionais para diagnóstico de hardware"></site-container-title>
 
     <!-- Main Content -->
     <main class="relative z-10 w-full max-w-7xl mx-auto px-4 pb-16">
         <!-- Test Tools Section -->
-        <section class="mb-16 animate-slide-up">         
+        <section class="mb-16 animate-slide-up">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Touch Screen Test -->
                 <a href="identificador-hardware.html" class="group block">
@@ -71,7 +56,7 @@
                                 de Hardware</h3>
                             <p class="text-gray-400 text-sm leading-relaxed">Identifique o tipo de hardware do seu
                                 dispositivo</p>
-                                <br>
+                            <br>
                         </div>
                     </div>
                 </a>
@@ -225,11 +210,10 @@
                 </a>
             </div>
         </section>
+
+        <site-footer></site-footer>
     </main>
 
-    <site-footer>
-        
-    </site-footer>
 
     <style>
         @keyframes fadeIn {
@@ -322,8 +306,8 @@
         }
     </style>
 
-    <script src="js/script.js"></script>
-    <script src="js//components.js"></script>
+    <!-- <script src="js/script.js"></script> -->
+    <script src="js/components.js"></script>
 </body>
 
 </html>

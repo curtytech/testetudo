@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,41 +59,41 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
         }
-        
+
         .glass-effect {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
+
         .card-hover {
             transition: all 0.3s ease;
         }
-        
+
         .card-hover:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
-        
+
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
-        
+
         ::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
         }
-        
+
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(135deg, #3b82f6, #1e40af);
             border-radius: 4px;
         }
-        
+
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, #2563eb, #1d4ed8);
         }
-        
+
         /* Audio visualizer styles */
         #audio-visualizer {
             background: rgba(0, 0, 0, 0.3);
@@ -101,49 +102,29 @@
     </style>
 </head>
 
-    <script src="js/head.js"></script>
-<body class="text-white">
+<body class="bg-gradient-to-br from-dark via-slate-900 to-indigo-900 text-white min-h-screen">
     <site-header></site-header>
 
-    <!-- Navigation Panel -->
-    <nav class="container mx-auto px-4 mb-8 animate-slide-up">
-        <div class="glass-effect rounded-2xl p-6 card-hover">
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="index.html" class="flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl">
-                    <i class="fas fa-home mr-2"></i>Início
-                </a>
-                <a href="teste-touch-screen.html" class="flex items-center px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg hover:from-purple-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl">
-                    <i class="fas fa-hand-pointer mr-2"></i>Touch Screen
-                </a>
-                <a href="teste-seu-processador.html" class="flex items-center px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 rounded-lg hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-xl">
-                    <i class="fas fa-microchip mr-2"></i>Processador
-                </a>
-                <a href="teste-seu-teclado.html" class="flex items-center px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl">
-                    <i class="fas fa-keyboard mr-2"></i>Teclado
-                </a>
-                <a href="teste-velocidade-internet.html" class="flex items-center px-4 py-2 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-lg hover:from-yellow-600 hover:to-yellow-700 transition-all duration-300 shadow-lg hover:shadow-xl">
-                    <i class="fas fa-wifi mr-2"></i>Velocidade Internet
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container mx-auto px-4 pb-8">
+    <div class="container mx-auto px-4 pb-8 mt-5">
         <!-- Microphone Permission Section -->
         <div class="glass-effect rounded-2xl p-8 mb-8 card-hover animate-slide-up">
             <h2 class="text-2xl font-bold mb-6 text-center">
                 <i class="fas fa-microphone-alt mr-2 text-green-400"></i>Permissões de Microfone
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-gradient-to-br from-green-500/20 to-green-600/20 rounded-xl p-6 border border-green-400/30">
+                <div
+                    class="bg-gradient-to-br from-green-500/20 to-green-600/20 rounded-xl p-6 border border-green-400/30">
                     <h3 class="text-lg font-semibold mb-4 text-green-300">
                         <i class="fas fa-shield-alt mr-2"></i>Status do Microfone
                     </h3>
                     <div class="flex items-center justify-between mb-4">
                         <span class="text-green-100">Permissão:</span>
-                        <span id="mic-status" class="px-3 py-1 rounded-full text-xs font-medium bg-gray-600 text-gray-300">Não solicitado</span>
+                        <span id="mic-status"
+                            class="px-3 py-1 rounded-full text-xs font-medium bg-gray-600 text-gray-300">Não
+                            solicitado</span>
                     </div>
-                    <button id="request-mic" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl">
+                    <button id="request-mic"
+                        class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl">
                         <i class="fas fa-microphone mr-2"></i>Solicitar Acesso ao Microfone
                     </button>
                 </div>
@@ -153,9 +134,13 @@
                     </h3>
                     <div class="flex items-center justify-between mb-4">
                         <span class="text-blue-100">Alto-falantes:</span>
-                        <span id="audio-status" class="px-3 py-1 rounded-full text-xs font-medium bg-gray-600 text-gray-300">Não testado</span>
+                        <span id="audio-status"
+                            class="px-3 py-1 rounded-full text-xs font-medium bg-gray-600 text-gray-300">Não
+                            testado</span>
                     </div>
-                    <button id="test-audio" class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl" disabled>
+                    <button id="test-audio"
+                        class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                        disabled>
                         <i class="fas fa-play mr-2"></i>Habilitar Teste de Áudio
                     </button>
                 </div>
@@ -167,9 +152,10 @@
             <h2 class="text-2xl font-bold mb-6 text-center">
                 <i class="fas fa-microphone mr-2 text-purple-400"></i>Teste de Microfone
             </h2>
-            
+
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                <div class="bg-gradient-to-br from-purple-500/20 to-purple-600/20 rounded-xl p-6 border border-purple-400/30">
+                <div
+                    class="bg-gradient-to-br from-purple-500/20 to-purple-600/20 rounded-xl p-6 border border-purple-400/30">
                     <h3 class="text-lg font-semibold mb-4 text-purple-300">
                         <i class="fas fa-signal mr-2"></i>Nível de Entrada
                     </h3>
@@ -179,13 +165,16 @@
                             <span id="mic-level">0%</span>
                         </div>
                         <div class="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
-                            <div id="mic-level-bar" class="h-full bg-gradient-to-r from-green-400 via-yellow-400 to-red-400 transition-all duration-200" style="width: 0%"></div>
+                            <div id="mic-level-bar"
+                                class="h-full bg-gradient-to-r from-green-400 via-yellow-400 to-red-400 transition-all duration-200"
+                                style="width: 0%"></div>
                         </div>
                     </div>
                     <p class="text-sm text-purple-200">Fale no microfone para ver o nível de entrada</p>
                 </div>
-                
-                <div class="bg-gradient-to-br from-indigo-500/20 to-indigo-600/20 rounded-xl p-6 border border-indigo-400/30">
+
+                <div
+                    class="bg-gradient-to-br from-indigo-500/20 to-indigo-600/20 rounded-xl p-6 border border-indigo-400/30">
                     <h3 class="text-lg font-semibold mb-4 text-indigo-300">
                         <i class="fas fa-chart-bar mr-2"></i>Visualizador de Áudio
                     </h3>
@@ -193,15 +182,17 @@
                     <p class="text-sm text-indigo-200 mt-2">Visualização em tempo real do áudio capturado</p>
                 </div>
             </div>
-            
+
             <div class="bg-gradient-to-br from-gray-500/20 to-gray-600/20 rounded-xl p-6 border border-gray-400/30">
                 <h3 class="text-lg font-semibold mb-4 text-gray-300">
                     <i class="fas fa-list mr-2"></i>Dispositivos de Entrada
                 </h3>
-                <select id="mic-devices" class="w-full bg-gray-800/50 text-white rounded-lg p-3 border border-gray-600/50 focus:border-blue-400 focus:outline-none">
+                <select id="mic-devices"
+                    class="w-full bg-gray-800/50 text-white rounded-lg p-3 border border-gray-600/50 focus:border-blue-400 focus:outline-none">
                     <option value="">Selecione um dispositivo...</option>
                 </select>
-                <p id="no-devices-message" class="text-sm text-gray-400 mt-2 hidden">Nenhum dispositivo de entrada encontrado.</p>
+                <p id="no-devices-message" class="text-sm text-gray-400 mt-2 hidden">Nenhum dispositivo de entrada
+                    encontrado.</p>
             </div>
         </div>
 
@@ -210,30 +201,38 @@
             <h2 class="text-2xl font-bold mb-6 text-center">
                 <i class="fas fa-volume-up mr-2 text-yellow-400"></i>Teste de Alto-falantes
             </h2>
-            
+
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                <div class="bg-gradient-to-br from-yellow-500/20 to-yellow-600/20 rounded-xl p-6 border border-yellow-400/30">
+                <div
+                    class="bg-gradient-to-br from-yellow-500/20 to-yellow-600/20 rounded-xl p-6 border border-yellow-400/30">
                     <h3 class="text-lg font-semibold mb-4 text-yellow-300">
                         <i class="fas fa-play-circle mr-2"></i>Sons de Teste
                     </h3>
                     <p class="text-sm text-yellow-200 mb-4">Reproduza um som para verificar seus alto-falantes</p>
                     <div class="grid grid-cols-2 gap-3">
-                        <button id="play-beep" class="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl" disabled>
+                        <button id="play-beep"
+                            class="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                            disabled>
                             <i class="fas fa-bell mr-2"></i>Bipe
                         </button>
-                        <button id="play-voice" class="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl" disabled>
+                        <button id="play-voice"
+                            class="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                            disabled>
                             <i class="fas fa-comment mr-2"></i>Voz
                         </button>
                     </div>
                 </div>
-                
-                <div class="bg-gradient-to-br from-orange-500/20 to-orange-600/20 rounded-xl p-6 border border-orange-400/30">
+
+                <div
+                    class="bg-gradient-to-br from-orange-500/20 to-orange-600/20 rounded-xl p-6 border border-orange-400/30">
                     <h3 class="text-lg font-semibold mb-4 text-orange-300">
                         <i class="fas fa-volume-down mr-2"></i>Controle de Volume
                     </h3>
                     <div class="mb-4">
-                        <label for="volume-control" class="block text-sm font-medium text-orange-200 mb-2">Volume:</label>
-                        <input type="range" id="volume-control" min="0" max="100" value="75" class="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer slider">
+                        <label for="volume-control"
+                            class="block text-sm font-medium text-orange-200 mb-2">Volume:</label>
+                        <input type="range" id="volume-control" min="0" max="100" value="75"
+                            class="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer slider">
                         <div class="flex justify-between text-xs text-orange-200 mt-2">
                             <span>0%</span>
                             <span id="volume-value" class="font-semibold">75%</span>
@@ -242,15 +241,17 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="bg-gradient-to-br from-gray-500/20 to-gray-600/20 rounded-xl p-6 border border-gray-400/30">
                 <h3 class="text-lg font-semibold mb-4 text-gray-300">
                     <i class="fas fa-list mr-2"></i>Dispositivos de Saída
                 </h3>
-                <select id="audio-devices" class="w-full bg-gray-800/50 text-white rounded-lg p-3 border border-gray-600/50 focus:border-blue-400 focus:outline-none">
+                <select id="audio-devices"
+                    class="w-full bg-gray-800/50 text-white rounded-lg p-3 border border-gray-600/50 focus:border-blue-400 focus:outline-none">
                     <option value="">Selecione um dispositivo...</option>
                 </select>
-                <p id="no-audio-devices-message" class="text-sm text-gray-400 mt-2 hidden">Nenhum dispositivo de saída encontrado.</p>
+                <p id="no-audio-devices-message" class="text-sm text-gray-400 mt-2 hidden">Nenhum dispositivo de saída
+                    encontrado.</p>
             </div>
         </div>
 
@@ -259,47 +260,57 @@
             <h2 class="text-2xl font-bold mb-6 text-center">
                 <i class="fas fa-mobile-alt mr-2 text-pink-400"></i>Teste de Vibração
             </h2>
-            
+
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="bg-gradient-to-br from-pink-500/20 to-pink-600/20 rounded-xl p-6 border border-pink-400/30">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-lg font-semibold text-pink-300">
                             <i class="fas fa-vibrate mr-2"></i>Vibração Básica
                         </h3>
-                        <span id="vibration-status" class="px-3 py-1 rounded-full text-xs font-medium bg-gray-600 text-gray-300">Não testado</span>
+                        <span id="vibration-status"
+                            class="px-3 py-1 rounded-full text-xs font-medium bg-gray-600 text-gray-300">Não
+                            testado</span>
                     </div>
                     <p class="text-sm text-pink-200 mb-4">Teste a capacidade de vibração do seu dispositivo</p>
-                    
+
                     <div class="grid grid-cols-3 gap-3 mb-4">
-                        <button id="vibrate-short" class="bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-medium py-2 px-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl text-sm">
+                        <button id="vibrate-short"
+                            class="bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-medium py-2 px-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl text-sm">
                             <i class="fas fa-clock mr-1"></i>Curta
                         </button>
-                        <button id="vibrate-medium" class="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-medium py-2 px-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl text-sm">
+                        <button id="vibrate-medium"
+                            class="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-medium py-2 px-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl text-sm">
                             <i class="fas fa-clock mr-1"></i>Média
                         </button>
-                        <button id="vibrate-long" class="bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white font-medium py-2 px-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl text-sm">
+                        <button id="vibrate-long"
+                            class="bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white font-medium py-2 px-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl text-sm">
                             <i class="fas fa-clock mr-1"></i>Longa
                         </button>
                     </div>
                 </div>
-                
-                <div class="bg-gradient-to-br from-purple-500/20 to-purple-600/20 rounded-xl p-6 border border-purple-400/30">
+
+                <div
+                    class="bg-gradient-to-br from-purple-500/20 to-purple-600/20 rounded-xl p-6 border border-purple-400/30">
                     <h3 class="text-lg font-semibold mb-4 text-purple-300">
                         <i class="fas fa-wave-square mr-2"></i>Padrões de Vibração
                     </h3>
                     <p class="text-sm text-purple-200 mb-4">Teste diferentes padrões de vibração</p>
-                    
+
                     <div class="grid grid-cols-2 gap-3">
-                        <button id="vibrate-pattern-1" class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-medium py-2 px-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl text-sm">
+                        <button id="vibrate-pattern-1"
+                            class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-medium py-2 px-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl text-sm">
                             <i class="fas fa-exclamation-triangle mr-1"></i>SOS
                         </button>
-                        <button id="vibrate-pattern-2" class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium py-2 px-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl text-sm">
+                        <button id="vibrate-pattern-2"
+                            class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium py-2 px-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl text-sm">
                             <i class="fas fa-heartbeat mr-1"></i>Pulso
                         </button>
-                        <button id="vibrate-pattern-3" class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium py-2 px-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl text-sm">
+                        <button id="vibrate-pattern-3"
+                            class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium py-2 px-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl text-sm">
                             <i class="fas fa-music mr-1"></i>Ritmo
                         </button>
-                        <button id="vibrate-stop" class="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-medium py-2 px-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl text-sm">
+                        <button id="vibrate-stop"
+                            class="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-medium py-2 px-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl text-sm">
                             <i class="fas fa-stop mr-1"></i>Parar
                         </button>
                     </div>
@@ -312,14 +323,16 @@
             <h2 class="text-2xl font-bold mb-6 text-center">
                 <i class="fas fa-chart-line mr-2 text-cyan-400"></i>Resultados dos Testes
             </h2>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-gradient-to-br from-green-500/20 to-green-600/20 rounded-xl p-6 border border-green-400/30">
+                <div
+                    class="bg-gradient-to-br from-green-500/20 to-green-600/20 rounded-xl p-6 border border-green-400/30">
                     <h3 class="text-lg font-semibold mb-4 text-green-300">
                         <i class="fas fa-microphone mr-2"></i>Microfone
                     </h3>
                     <div class="flex items-center space-x-3">
-                        <div id="mic-result-icon" class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center">
+                        <div id="mic-result-icon"
+                            class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center">
                             <span class="text-gray-300">?</span>
                         </div>
                         <div>
@@ -328,33 +341,38 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="bg-gradient-to-br from-yellow-500/20 to-yellow-600/20 rounded-xl p-6 border border-yellow-400/30">
+
+                <div
+                    class="bg-gradient-to-br from-yellow-500/20 to-yellow-600/20 rounded-xl p-6 border border-yellow-400/30">
                     <h3 class="text-lg font-semibold mb-4 text-yellow-300">
                         <i class="fas fa-volume-up mr-2"></i>Alto-falantes
                     </h3>
                     <div class="flex items-center space-x-3">
-                        <div id="audio-result-icon" class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center">
+                        <div id="audio-result-icon"
+                            class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center">
                             <span class="text-gray-300">?</span>
                         </div>
                         <div>
                             <p id="audio-result-text" class="font-medium text-gray-300">Não testado</p>
-                            <p id="audio-result-details" class="text-xs text-gray-400">Execute o teste para verificar</p>
+                            <p id="audio-result-details" class="text-xs text-gray-400">Execute o teste para verificar
+                            </p>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="bg-gradient-to-br from-pink-500/20 to-pink-600/20 rounded-xl p-6 border border-pink-400/30">
                     <h3 class="text-lg font-semibold mb-4 text-pink-300">
                         <i class="fas fa-mobile-alt mr-2"></i>Vibração
                     </h3>
                     <div class="flex items-center space-x-3">
-                        <div id="vibration-result-icon" class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center">
+                        <div id="vibration-result-icon"
+                            class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center">
                             <span class="text-gray-300">?</span>
                         </div>
                         <div>
                             <p id="vibration-result-text" class="font-medium text-gray-300">Não testado</p>
-                            <p id="vibration-result-details" class="text-xs text-gray-400">Execute o teste para verificar</p>
+                            <p id="vibration-result-details" class="text-xs text-gray-400">Execute o teste para
+                                verificar</p>
                         </div>
                     </div>
                 </div>
@@ -371,19 +389,24 @@
                     <h3 class="text-lg font-semibold mb-3 text-blue-300">
                         <i class="fas fa-microphone mr-2"></i>Teste de Microfone
                     </h3>
-                    <p class="text-blue-100 text-sm">Clique em "Solicitar Acesso" para permitir o uso do microfone e visualizar o nível de entrada em tempo real.</p>
+                    <p class="text-blue-100 text-sm">Clique em "Solicitar Acesso" para permitir o uso do microfone e
+                        visualizar o nível de entrada em tempo real.</p>
                 </div>
-                <div class="bg-gradient-to-br from-green-500/20 to-green-600/20 rounded-xl p-6 border border-green-400/30">
+                <div
+                    class="bg-gradient-to-br from-green-500/20 to-green-600/20 rounded-xl p-6 border border-green-400/30">
                     <h3 class="text-lg font-semibold mb-3 text-green-300">
                         <i class="fas fa-volume-up mr-2"></i>Teste de Áudio
                     </h3>
-                    <p class="text-green-100 text-sm">Após habilitar o áudio, teste seus alto-falantes com sons de bipe ou síntese de voz.</p>
+                    <p class="text-green-100 text-sm">Após habilitar o áudio, teste seus alto-falantes com sons de bipe
+                        ou síntese de voz.</p>
                 </div>
-                <div class="bg-gradient-to-br from-purple-500/20 to-purple-600/20 rounded-xl p-6 border border-purple-400/30">
+                <div
+                    class="bg-gradient-to-br from-purple-500/20 to-purple-600/20 rounded-xl p-6 border border-purple-400/30">
                     <h3 class="text-lg font-semibold mb-3 text-purple-300">
                         <i class="fas fa-mobile-alt mr-2"></i>Teste de Vibração
                     </h3>
-                    <p class="text-purple-100 text-sm">Teste diferentes padrões de vibração em dispositivos móveis compatíveis.</p>
+                    <p class="text-purple-100 text-sm">Teste diferentes padrões de vibração em dispositivos móveis
+                        compatíveis.</p>
                 </div>
             </div>
         </div>
@@ -416,7 +439,7 @@
         const audioResultText = document.getElementById('audio-result-text');
         const audioResultDetails = document.getElementById('audio-result-details');
         const audioVisualizer = document.getElementById('audio-visualizer');
-        
+
         // Elementos de vibração
         const vibrateShortBtn = document.getElementById('vibrate-short');
         const vibrateMediumBtn = document.getElementById('vibrate-medium');
@@ -461,43 +484,43 @@
             try {
                 micStatusEl.textContent = 'Solicitando...';
                 micStatusEl.className = 'px-3 py-1 rounded-full text-xs font-medium bg-yellow-500 text-yellow-900';
-                
+
                 // Solicitar permissão para o microfone
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                
+
                 // Atualizar status
                 micStatusEl.textContent = 'Permitido';
                 micStatusEl.className = 'px-3 py-1 rounded-full text-xs font-medium bg-green-500 text-green-900';
-                
+
                 // Habilitar seção de teste de microfone
                 micTestSection.classList.remove('opacity-50');
-                
+
                 // Habilitar botão de teste de áudio
                 testAudioBtn.disabled = false;
-                
+
                 // Inicializar contexto de áudio
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 analyser = audioContext.createAnalyser();
                 analyser.fftSize = 256;
-                
+
                 // Conectar microfone ao analisador
                 microphone = audioContext.createMediaStreamSource(stream);
                 microphone.connect(analyser);
-                
+
                 // Preparar visualização
                 dataArray = new Uint8Array(analyser.frequencyBinCount);
                 initCanvas();
                 visualize();
-                
+
                 // Atualizar resultado do microfone
                 updateMicResult(true);
-                
+
                 // Listar dispositivos de entrada
                 await listMicDevices();
-                
+
                 // Monitorar nível de entrada
                 monitorMicLevel();
-                
+
             } catch (error) {
                 console.error('Erro ao acessar o microfone:', error);
                 micStatusEl.textContent = 'Negado';
@@ -510,15 +533,15 @@
         testAudioBtn.addEventListener('click', () => {
             // Habilitar seção de teste de alto-falantes
             speakerTestSection.classList.remove('opacity-50');
-            
+
             // Habilitar botões de teste
             playBeepBtn.disabled = false;
             playVoiceBtn.disabled = false;
-            
+
             // Atualizar status
             audioStatusEl.textContent = 'Pronto para teste';
             audioStatusEl.className = 'px-3 py-1 rounded-full text-xs font-medium bg-yellow-500 text-yellow-900';
-            
+
             // Listar dispositivos de saída
             listAudioDevices();
         });
@@ -542,21 +565,21 @@
             if (!audioContext) {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
             }
-            
+
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
-            
+
             gainNode.gain.value = currentVolume;
-            
+
             if (type === 'beep') {
                 oscillator.type = 'sine';
                 oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // Nota Lá (A4)
-                
+
                 oscillator.connect(gainNode);
                 gainNode.connect(audioContext.destination);
-                
+
                 oscillator.start();
-                
+
                 // Parar após 1 segundo
                 setTimeout(() => {
                     oscillator.stop();
@@ -568,7 +591,7 @@
                 utterance.volume = currentVolume;
                 speechSynthesis.speak(utterance);
             }
-            
+
             // Atualizar status
             audioStatusEl.textContent = 'Testado';
             audioStatusEl.className = 'px-3 py-1 rounded-full text-xs font-medium bg-green-500 text-green-900';
@@ -579,15 +602,15 @@
             try {
                 const devices = await navigator.mediaDevices.enumerateDevices();
                 const micDevices = devices.filter(device => device.kind === 'audioinput');
-                
+
                 if (micDevices.length === 0) {
                     noDevicesMessage.classList.remove('hidden');
                     return;
                 }
-                
+
                 // Limpar select
                 micDevicesSelect.innerHTML = '';
-                
+
                 // Adicionar opções
                 micDevices.forEach(device => {
                     const option = document.createElement('option');
@@ -595,7 +618,7 @@
                     option.text = device.label || `Microfone ${micDevicesSelect.options.length + 1}`;
                     micDevicesSelect.appendChild(option);
                 });
-                
+
             } catch (error) {
                 console.error('Erro ao listar dispositivos:', error);
             }
@@ -606,15 +629,15 @@
             try {
                 const devices = await navigator.mediaDevices.enumerateDevices();
                 const audioDevices = devices.filter(device => device.kind === 'audiooutput');
-                
+
                 if (audioDevices.length === 0) {
                     noAudioDevicesMessage.classList.remove('hidden');
                     return;
                 }
-                
+
                 // Limpar select
                 audioDevicesSelect.innerHTML = '';
-                
+
                 // Adicionar opções
                 audioDevices.forEach(device => {
                     const option = document.createElement('option');
@@ -622,7 +645,7 @@
                     option.text = device.label || `Alto-falante ${audioDevicesSelect.options.length + 1}`;
                     audioDevicesSelect.appendChild(option);
                 });
-                
+
             } catch (error) {
                 console.error('Erro ao listar dispositivos de áudio:', error);
             }
@@ -631,22 +654,22 @@
         // Função para monitorar nível de entrada do microfone
         function monitorMicLevel() {
             if (!analyser) return;
-            
+
             analyser.getByteFrequencyData(dataArray);
-            
+
             // Calcular média do volume
             let sum = 0;
             for (let i = 0; i < dataArray.length; i++) {
                 sum += dataArray[i];
             }
-            
+
             const average = sum / dataArray.length;
             const level = Math.min(100, Math.round((average / 255) * 100));
-            
+
             // Atualizar UI
             micLevelEl.textContent = `${level}%`;
             micLevelBar.style.width = `${level}%`;
-            
+
             // Continuar monitorando
             requestAnimationFrame(monitorMicLevel);
         }
@@ -654,30 +677,30 @@
         // Função para visualizar áudio
         function visualize() {
             if (!analyser) return;
-            
+
             // Limpar canvas
             canvasContext.clearRect(0, 0, audioVisualizer.width, audioVisualizer.height);
-            
+
             // Configurar visualização
             analyser.getByteFrequencyData(dataArray);
-            
+
             const barWidth = (audioVisualizer.width / dataArray.length) * 2.5;
             let barHeight;
             let x = 0;
-            
+
             // Desenhar barras
             for (let i = 0; i < dataArray.length; i++) {
                 barHeight = dataArray[i] / 2;
-                
+
                 // Gradiente baseado na altura
                 const hue = (i / dataArray.length) * 120 + 180; // 180-300 (ciano para roxo)
                 canvasContext.fillStyle = `hsl(${hue}, 100%, ${50 + barHeight / 4}%)`;
-                
+
                 canvasContext.fillRect(x, audioVisualizer.height - barHeight, barWidth, barHeight);
-                
+
                 x += barWidth + 1;
             }
-            
+
             // Continuar animação
             animationFrame = requestAnimationFrame(visualize);
         }
@@ -685,7 +708,7 @@
         // Atualizar resultado do microfone
         function updateMicResult(success, errorMsg = '') {
             micTested = true;
-            
+
             if (success) {
                 micResultIcon.innerHTML = '<svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
                 micResultIcon.className = 'w-10 h-10 rounded-full bg-green-900 flex items-center justify-center';
@@ -736,12 +759,12 @@
                 updateVibrationResult(false, 'Seu dispositivo não suporta vibração');
                 return;
             }
-            
+
             try {
                 navigator.vibrate(pattern);
                 vibrationTested = true;
                 updateVibrationResult(true);
-                
+
                 // Atualizar status
                 vibrationStatusEl.textContent = 'Testado';
                 vibrationStatusEl.className = 'px-3 py-1 rounded-full text-xs font-medium bg-green-500 text-green-900';
@@ -750,14 +773,14 @@
                 updateVibrationResult(false, error.message);
             }
         }
-        
+
         // Parar vibração
         function stopVibration() {
             if (vibrationSupported) {
                 navigator.vibrate(0);
             }
         }
-        
+
         // Atualizar resultado da vibração
         function updateVibrationResult(success, errorMsg = '') {
             if (success) {
@@ -774,35 +797,35 @@
                 vibrationResultDetails.textContent = errorMsg || 'Não foi possível testar a vibração';
             }
         }
-        
+
         // Eventos de vibração
         if (vibrateShortBtn) {
             vibrateShortBtn.addEventListener('click', () => testVibration(200));
         }
-        
+
         if (vibrateMediumBtn) {
             vibrateMediumBtn.addEventListener('click', () => testVibration(500));
         }
-        
+
         if (vibrateLongBtn) {
             vibrateLongBtn.addEventListener('click', () => testVibration(1000));
         }
-        
+
         if (vibratePattern1Btn) {
             // Padrão SOS: ... --- ...
             vibratePattern1Btn.addEventListener('click', () => testVibration([100, 100, 100, 100, 100, 100, 300, 200, 300, 200, 300, 200, 100, 100, 100, 100, 100]));
         }
-        
+
         if (vibratePattern2Btn) {
             // Padrão de pulso
             vibratePattern2Btn.addEventListener('click', () => testVibration([100, 50, 100, 50, 100, 50, 100, 50, 100]));
         }
-        
+
         if (vibratePattern3Btn) {
             // Padrão rítmico
             vibratePattern3Btn.addEventListener('click', () => testVibration([100, 200, 300, 200, 100, 200, 300, 500]));
         }
-        
+
         if (vibrateStopBtn) {
             vibrateStopBtn.addEventListener('click', stopVibration);
         }
@@ -811,7 +834,7 @@
         window.addEventListener('load', () => {
             checkAudioSupport();
             initCanvas();
-            
+
             // Verificar suporte à vibração
             if (!vibrationSupported) {
                 document.getElementById('vibration-test-section').classList.add('opacity-50');
@@ -819,10 +842,10 @@
                     btn.disabled = true;
                     btn.classList.add('opacity-50', 'cursor-not-allowed');
                 });
-                
+
                 vibrationStatusEl.textContent = 'Não suportado';
                 vibrationStatusEl.className = 'px-3 py-1 rounded-full text-xs font-medium bg-red-500 text-red-900';
-                
+
                 updateVibrationResult(false, 'Seu dispositivo não suporta vibração');
             }
         });
@@ -834,7 +857,8 @@
                 audioVisualizer.height = audioVisualizer.offsetHeight;
             }
         });
-</script>
-    <script src="js/components.js"></script>
+    </script>
+<script src="js/components.js"></script>
 </body>
+
 </html>
