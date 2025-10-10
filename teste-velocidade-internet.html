@@ -7,6 +7,7 @@
     <title>Teste de Velocidade de Internet - Tecnico Online</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script>
         tailwind.config = {
@@ -132,23 +133,26 @@
 <body class="bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 text-white min-h-screen">
     <site-header></site-header>
     <div class="container mx-auto px-4 py-8">
-        
+
         <!-- Informações de Conexão -->
-        <div class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm shadow-xl mb-8 card-hover">
+        <div
+            class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm shadow-xl mb-8 card-hover">
             <div class="flex items-center mb-6">
                 <i class="fas fa-info-circle text-cyan-400 text-xl mr-3"></i>
                 <h2 class="text-xl font-semibold text-white">Informações de Conexão</h2>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-4">
-                    <div class="flex items-center p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-600">
+                    <div
+                        class="flex items-center p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-600">
                         <i class="fas fa-network-wired text-blue-400 mr-3"></i>
                         <div>
                             <span class="font-medium text-gray-300">Tipo de Conexão:</span>
                             <span id="connection-type" class="ml-2 text-blue-400 font-semibold">Detectando...</span>
                         </div>
                     </div>
-                    <div class="flex items-center p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-600">
+                    <div
+                        class="flex items-center p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-600">
                         <i class="fas fa-building text-purple-400 mr-3"></i>
                         <div>
                             <span class="font-medium text-gray-300">Provedor:</span>
@@ -157,14 +161,16 @@
                     </div>
                 </div>
                 <div class="space-y-4">
-                    <div class="flex items-center p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-600">
+                    <div
+                        class="flex items-center p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-600">
                         <i class="fas fa-globe text-emerald-400 mr-3"></i>
                         <div>
                             <span class="font-medium text-gray-300">Endereço IP:</span>
                             <span id="ip-address" class="ml-2 text-emerald-400 font-semibold">Detectando...</span>
                         </div>
                     </div>
-                    <div class="flex items-center p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-600">
+                    <div
+                        class="flex items-center p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-600">
                         <i class="fas fa-map-marker-alt text-orange-500 mr-3"></i>
                         <div>
                             <span class="font-medium text-gray-300">Localização:</span>
@@ -176,7 +182,8 @@
         </div>
 
         <!-- Painel de Controle -->
-        <div class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm shadow-xl mb-8 card-hover">
+        <div
+            class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm shadow-xl mb-8 card-hover">
             <div class="flex items-center mb-6">
                 <i class="fas fa-play-circle text-blue-400 text-xl mr-3"></i>
                 <h2 class="text-xl font-semibold text-white">Controles de Teste</h2>
@@ -198,7 +205,8 @@
         <!-- Medidores -->
         <div class="grid grid-cols-1 md:grid-cols-1 gap-6 mb-8">
             <!-- Medidor de Download -->
-            <div class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm shadow-xl card-hover">
+            <div
+                class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm shadow-xl card-hover">
                 <div class="flex items-center justify-center mb-4">
                     <i class="fas fa-download text-emerald-400 text-xl mr-3"></i>
                     <h3 class="text-lg font-semibold text-white">Download</h3>
@@ -226,7 +234,8 @@
         </div>
 
         <!-- Resultados -->
-        <div class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm shadow-xl mb-8 card-hover">
+        <div
+            class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm shadow-xl mb-8 card-hover">
             <div class="flex items-center mb-6">
                 <i class="fas fa-chart-line text-blue-400 text-xl mr-3"></i>
                 <h2 class="text-xl font-semibold text-white">Resultados Detalhados</h2>
@@ -258,7 +267,8 @@
         </div>
 
         <!-- Gráfico de Histórico -->
-        <div class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm shadow-xl mb-8 card-hover">
+        <div
+            class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm shadow-xl mb-8 card-hover">
             <div class="flex items-center mb-6">
                 <i class="fas fa-chart-area text-purple-400 text-xl mr-3"></i>
                 <h2 class="text-xl font-semibold text-white">Histórico de Testes</h2>
@@ -269,13 +279,15 @@
         </div>
 
         <!-- Recomendações -->
-        <div class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm shadow-xl mb-8 card-hover">
+        <div
+            class="bg-gradient-to-br from-dark-light to-slate-800 rounded-2xl p-6 border border-gray-700 backdrop-blur-sm shadow-xl mb-8 card-hover">
             <div class="flex items-center mb-6">
                 <i class="fas fa-lightbulb text-orange-500 text-xl mr-3"></i>
                 <h2 class="text-xl font-semibold text-white">Recomendações</h2>
             </div>
             <div id="recommendations" class="space-y-3">
-                <div class="flex items-center p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-600">
+                <div
+                    class="flex items-center p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-600">
                     <i class="fas fa-info-circle text-blue-400 mr-3"></i>
                     <p class="text-gray-300">Complete um teste para receber recomendações personalizadas sobre sua
                         conexão.</p>
